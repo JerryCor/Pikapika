@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pikapika.app.mapper.BbsMapper" >
+    <resultMap id="BaseResultMap" type="com.pikapika.app.entity.BbsEntity" >
+        <id column="bbs_id" property="bbsId" jdbcType="INTEGER" />
+        <result column="bbs_title" property="bbsTitle" jdbcType="VARCHAR" />
+        <result column="bbs_comment" property="bbsComment" jdbcType="VARCHAR" />
+        <result column="bbs_commentcount" property="bbsCommentcount" jdbcType="INTEGER"/>
+        <result column="uaccount_id" property="uaccountId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        bbs_id, bbs_title, bbs_comment, bbs_commentcount, uaccount_id, create_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT 
+       <include refid="Base_Column_List" />
+       FROM bbs
+    </select>
+
+</mapper>
