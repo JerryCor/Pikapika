@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.pikapika.app.service.BbsService;
 
@@ -15,12 +15,12 @@ public class BbsController {
 	private BbsService bbsService; 
 	
 	@RequestMapping(value="bbs", method = RequestMethod.GET)
-	@ResponseBody
-	public String searchAllBbs(){
+	public ModelAndView searchAllBbs(){
+		ModelAndView view = new ModelAndView("index");
 		try {
-			return bbsService.searchAllBbs("1", "5");
+			view.addObject("list", bbsService.searchAllBbs("1", "5"));
 		} catch (Exception e) {
-			return "";
 		}
+		return view;
 	}
 }
