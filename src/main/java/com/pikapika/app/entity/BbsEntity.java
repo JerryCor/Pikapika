@@ -11,8 +11,7 @@ public class BbsEntity implements Serializable {
 	
 	private Integer bbsId;
 	private String bbsTitle;
-	private String bbsComment;
-	private Integer bbsCommentcount;
+	private String bbsContent;
 	private String uaccountId;
 	private LocalDateTime createTime;
 	
@@ -28,17 +27,11 @@ public class BbsEntity implements Serializable {
 	public void setBbsTitle(String bbsTitle) {
 		this.bbsTitle = bbsTitle;
 	}
-	public String getBbsComment() {
-		return bbsComment;
+	public String getBbsContent() {
+		return bbsContent;
 	}
-	public void setBbsComment(String bbsComment) {
-		this.bbsComment = bbsComment;
-	}
-	public Integer getBbsCommentcount() {
-		return bbsCommentcount;
-	}
-	public void setBbsCommentcount(Integer bbsCommentcount) {
-		this.bbsCommentcount = bbsCommentcount;
+	public void setBbsContent(String bbsContent) {
+		this.bbsContent = bbsContent;
 	}
 	public String getUaccountId() {
 		return uaccountId;

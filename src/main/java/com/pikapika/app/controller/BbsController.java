@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
 import com.pikapika.app.service.BbsService;
 
 @Controller
@@ -18,6 +19,7 @@ public class BbsController {
 	public ModelAndView searchAllBbs(){
 		ModelAndView view = new ModelAndView("index");
 		try {
+			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("5"));
 			view.addObject("list", bbsService.searchAllBbs("1", "5"));
 		} catch (Exception e) {
 		}

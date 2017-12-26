@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @ServletComponentScan
 @MapperScan("com.pikapika.app.**.mapper")
 public class PikapikaApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PikapikaApplication.class, args);
 	}
