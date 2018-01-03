@@ -92,21 +92,21 @@
 <body>
 	<header th:replace="common/top_header :: header"></header>
 	<div class="container">
-		<div id="displayInfos" class="row">
-			<div class="col-md-4">
-				<div class="thumbnail">
-					<img src="img/5.jpg" alt="..." />
+		<div id="displayInfos" class="row" >
+			<div class="col-md-4" th:each="charactor,charactorStat : ${charactorsInfos}">
+				<div class="thumbnail" style="height:500px">
+					<img th:src="@{${charactor.displayImg}}" style="width:100%;height:50%" alt="displayImg" />
 					<div class="caption">
-						<h4>Thumbnail label</h4>
-						<label>生日：</label><span>2017</span> <label>性别：</label><span>保密</span>
+						<h4 th:text="${charactor.charactorName}">Thumbnail label</h4>
+						<label>生日：</label><span th:text="${charactor.birthday}"></span> <label>性别：</label><span th:text="${charactor.gender}"></span>
 						<p>
-							<mdall>我要吃肉，我要当海贼王！</mdall>
+							<mdall th:text="${charactor.charactorDesc}"></mdall>
 						</p>
 						<h6>Thumbnail label</h6>
-						<img src="img/5.jpg" alt="..." />
+						<!-- <img th:src="@{${charactor.topImg}}" style="width:100%;height:50%" alt="topImg" /> -->
 						<p style="text-align: right;">
-							<a class="btn btn-info" onclick="return charactorsEdit('1');"
-								href="#" role="button">编辑 <span
+							<a class="btn btn-info" th:onclick="'javascript:charactorsEdit('+${charactor.charactorId}+')'"
+								th:href="@{'/pikapika/charactorsInfo/'+${charactor.charactorId}}" role="button">编辑 <span
 								class="glyphicon glyphicon glyphicon-pencil"></span></a>
 						</p>
 					</div>
@@ -115,21 +115,22 @@
 		</div>
 		<div id="charactorInfo" style="display: none;">
 
-			<form id="registerForm" action="" method="post"
+			<form id="registerForm" th:action="@{/pikapika/charactorsInfo}" enctype="multipart/form-data" th:object="${charactorsInfo}"  method="POST"
 				class="form-horizontal" role="form">
 				<fieldset>
 					<legend>角色信息设置</legend>
+					<input id="charactorId" name="charactorId" th:field="*{charactorId}" type="hidden" />
 					<div class="form-group">
 						<label class="col-md-2 control-label">角色图片<sup
 							style="color: red">*</sup></label>
 						<div id="show" class="col-md-3 show">
-							<img th:src="@{/img/5.jpg}" />
+							<img style="width: 100%; height: 180px" th:src="@{*{displayImg}}" />
 						</div>
 						<div id="passwordErrorMsg" class="col-md-4"></div>
 					</div>
 					<div class="form-group">
 						<div class="col-md-offset-2 col-md-3">
-							<input id="displayPic" type="file" value="upload" />
+							<input id="displayPic" name="displayPic" th:field="*{displayPic}" type="file" value="upload" />
 						</div>
 					</div>
 
@@ -137,27 +138,27 @@
 						<label class="col-md-2 control-label">角色名称<sup
 							style="color: red">*</sup></label>
 						<div class="col-md-2">
-							<input type="text" class="form-control" id="userName"
-								name="userName" placeholder="请输入角色名称" />
+							<input type="text" class="form-control" id="charactorName"
+							 th:field="*{charactorName}"	name="charactorName" placeholder="请输入角色名称" />
 						</div>
-						<div id="userNameErrorMsg" class="col-md-4"></div>
+						<div id="charactorNameErrorMsg" class="col-md-4"></div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-2 control-label">生日<sup
 							style="color: red">*</sup></label>
 						<div class="col-md-2">
-							<input type="text" class="form-control" name="realName"
-								placeholder="请输入生日" />
+							<input type="text" class="form-control" name="birthday"
+							  th:field="*{birthday}"	placeholder="请输入生日" />
 						</div>
-						<div id="realNameErrorMsg" class="col-md-4"></div>
+						<div id="birthdayErrorMsg" class="col-md-4"></div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-2 control-label">性别</label>
 						<div class="col-md-3">
 							<label class="radio-inline"> <input type="radio"
-								name="gender" value="0" checked="checked" />男
+							th:field="*{gender}"	name="gender" value="0" checked="checked" />男
 							</label> <label class="radio-inline"> <input type="radio"
-								name="gender" value="1" />女
+							th:field="*{gender}"	name="gender" value="1" />女
 							</label>
 						</div>
 					</div>
@@ -165,8 +166,8 @@
 						<label class="col-md-2 control-label">角色话语<sup
 							style="color: red">*</sup></label>
 						<div class="col-md-3">
-							<input type="text" class="form-control" name="idcard"
-								maxlength="18" placeholder="请输入角色话语" />
+							<input type="text" class="form-control" name="charactorDesc"
+							 th:field="*{charactorDesc}"	maxlength="18" placeholder="请输入角色话语" />
 						</div>
 						<div id="idcardErrorMsg" class="col-md-4"></div>
 					</div>
@@ -174,17 +175,17 @@
 						<label class="col-md-2 control-label">登顶图片<sup
 							style="color: red">*</sup></label>
 						<div id="topShow" class="col-md-4 topShow">
-							<img style="width: 100%; height: 124px" th:src="@{/img/4.jpg}" />
+							<img style="width: 100%; height: 124px" th:src="@{*{topImg}}" />
 						</div>
 						<div id="passwordErrorMsg" class="col-md-4"></div>
 					</div>
 					<div class="form-group">
 						<div class="col-md-offset-2 col-md-3">
-							<input id="topPic" type="file" value="upload" />
+							<input id="topPic" th:field="*{topPic}" type="file" value="upload" />
 						</div>
 					</div>
 				</fieldset>
-				<input type="button" id="commitForm" name="commit"
+				<input type="submit" id="commitForm" name="commit"
 					class="btn btn-primary col-md-offset-6" value="保存" /> <input
 					type="button" id="cancel" name="cancel" class="btn btn-default"
 					value="返回" />
@@ -198,8 +199,20 @@
 	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 	<script th:src="@{/js/bootstrap.js}"></script>
 	<script th:src="@{/js/carousel.js}"></script>
-	<script type="text/javascript">
+	<script th:inline="javascript">
+		$(function(){
+			var flag =[[${displayFlag}]];
+			if(flag){
+				$("#displayInfos").hide();
+				$("#charactorInfo").show();
+			}else{
+				$("#displayInfos").show();
+				$("#charactorInfo").hide();
+			}
+		});
+	
 		function charactorsEdit(charactorId) {
+			console.log(charactorId);
 			$("#displayInfos").hide();
 			$("#charactorInfo").show();
 		};

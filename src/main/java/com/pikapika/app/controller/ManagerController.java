@@ -1,22 +1,103 @@
 package com.pikapika.app.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.pikapika.app.entity.CharactorEntity;
+import com.pikapika.app.service.CharactorService;
 
 @Controller
 @RequestMapping("/pikapika")
 public class ManagerController {
+	
+	@Autowired
+	private CharactorService charactorService;
+	
 	@RequestMapping(value="charactors", method = RequestMethod.GET)
-	public ModelAndView charactors(){
+	public ModelAndView charactors() throws Exception{
 		ModelAndView view = new ModelAndView("charactortoManage");
+		List<CharactorEntity> entities = charactorService.searchAllCharactors("1", "5");
+		view.addObject("charactorsInfos", entities);
+		view.addObject("charactorsInfo", new CharactorEntity());
 		return view;
 	}
+	
 	@RequestMapping(value="charactorsInfo/{charactorId}", method = RequestMethod.GET)
 	public ModelAndView charactorsInfo(@PathVariable String charactorId){
-		ModelAndView view = new ModelAndView("charactorsInfo");
+		ModelAndView view = new ModelAndView("charactortoManage");
+		CharactorEntity entity = charactorService.searchCharactorById(charactorId);
+		if(entity!= null && entity.getCharactorId()!= null){
+			view.addObject("charactorsInfo", entity);
+			view.addObject("displayFlag", true);
+		}
 		return view;
+	}
+	
+	@RequestMapping(value="charactorsInfo", method = RequestMethod.POST)
+	@ResponseBody
+	public String charactorsInfo(CharactorEntity charactorEntity, 
+			HttpServletRequest request){
+		System.out.println(request.getServletContext().getContextPath());
+		System.out.println(request.getSession().getServletContext()
+				.getRealPath(""));
+		ModelAndView view = new ModelAndView("charactortoManage");
+		String pathRoot = request.getSession().getServletContext()
+				.getRealPath("");
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		String uuid2 = UUID.randomUUID().toString().replaceAll("-", "");
+		String path = "";
+		// 获得文件类型（可以判断如果不是图片，禁止上传）
+		String contentType = charactorEntity.getDisplayPic().getContentType();
+		String contentType2 = charactorEntity.getTopPic().getContentType();
+		if (contentType.equals("image/jpg")||contentType.equals("image/png")||contentType.equals("image/bmp")||contentType.equals("image/jpeg")) {
+        	// 获得文件后缀名称
+  			String imageName = contentType
+  					.substring(contentType.indexOf("/") + 1);
+  			path = "/images/" + uuid + "." + imageName;
+  			try {
+  				charactorEntity.getDisplayPic().transferTo(new File(pathRoot + path));
+  				charactorEntity.setDisplayImg(path);
+  			} catch (IllegalStateException e) {
+  				// TODO Auto-generated catch block
+  				e.printStackTrace();
+  			} catch (IOException e) {
+  				// TODO Auto-generated catch block
+  				e.printStackTrace();
+  			}
+  			System.out.println(path);
+		}
+		if (contentType2.equals("image/jpg")||contentType2.equals("image/png")||contentType2.equals("image/bmp")||contentType2.equals("image/jpeg")) {
+        	// 获得文件后缀名称
+  			String imageName = contentType2
+  					.substring(contentType2.indexOf("/") + 1);
+  			path = "/images/" + uuid2 + "." + imageName;
+  			try {
+  				charactorEntity.getTopPic().transferTo(new File(pathRoot + path));
+  				charactorEntity.setTopImg(path);
+  			} catch (IllegalStateException e) {
+  				// TODO Auto-generated catch block
+  				e.printStackTrace();
+  			} catch (IOException e) {
+  				// TODO Auto-generated catch block
+  				e.printStackTrace();
+  			}
+  			System.out.println(path);
+		}
+		charactorService.updateForCharactor(charactorEntity);
+		view.addObject("charactorsInfo", charactorEntity);
+		view.addObject("displayFlag", false);
+		return "redirect:/pikapika/charactors";
 	}
 }
