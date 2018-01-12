@@ -33,8 +33,12 @@
 			c_name = #{charactorName},
 			c_birthday = #{birthday},
 			c_gender = #{gender},
+			<if test="displayImg != null and displayImg != ''">
 			c_displayPic = #{displayImg},
+			</if>
+			<if test="topImg != null and topImg != ''">
 			c_firstPic = #{topImg},
+			</if>
 			c_introduce = #{charactorDesc} 
 		where c_id=#{charactorId}
 	</update>

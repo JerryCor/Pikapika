@@ -113,7 +113,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="charactorInfo" style="display: none;">
+		<div id="charactorInfo">
 
 			<form id="registerForm" th:action="@{/pikapika/charactorsInfo}" enctype="multipart/form-data" th:object="${charactorsInfo}"  method="POST"
 				class="form-horizontal" role="form">
@@ -186,9 +186,8 @@
 					</div>
 				</fieldset>
 				<input type="submit" id="commitForm" name="commit"
-					class="btn btn-primary col-md-offset-6" value="保存" /> <input
-					type="button" id="cancel" name="cancel" class="btn btn-default"
-					value="返回" />
+					class="btn btn-primary col-md-offset-6" value="保存" /> <a 
+					th:href="@{/pikapika/charactors}" id="cancel" class="btn btn-default">返回</a>
 			</form>
 
 		</div>

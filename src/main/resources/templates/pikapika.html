@@ -58,7 +58,17 @@
 		<script th:src="@{/js/carousel.js}"></script>
 		<script type="text/javascript">
 			function charactorsManager(){
+				$("#manageNav").addClass("active");
+				$("#indexNav").removeClass("active");
+				$("#talkNav").removeClass("active");
 				$("#mainIframe").attr("src","/pikapika/charactors");
+			};
+			
+			function indexManager(){
+				$("#manageNav").removeClass("active");
+				$("#indexNav").addClass("active");
+				$("#talkNav").removeClass("active");
+				$("#mainIframe").attr("src","/pikapika/pikapikaIndex");
 			};
 		</script>
 	</body>

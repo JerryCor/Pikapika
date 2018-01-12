@@ -169,107 +169,24 @@
 				    <p>asd</p>
 				  </div>
 				</div>-->
-				<div class="thumbnail" >
-			      <div class="caption">
-			      	<h4><label> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 昨日人气王</label></h4>
-			      	<img th:src="@{/img/4.jpg}" style="width: 100%;height: 124px;" />
+				<div th:each="charactor,charactorStat : ${charactorsInfo}">
+				<div th:if="${charactorStat.first}" class="thumbnail" >
+			      <div  class="caption">
+			      	<h4><label> <span class="glyphicon glyphicon-star" aria-hidden="true">昨日人气王·</span> <span th:text="${charactor.charactorName}"></span></label></h4>
+			      	<img th:src="${charactor.topImg}" style="width: 100%;height: 124px;" />
 			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
 			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
 			      </div>
 			    </div>
-	            <!--<h2 style="margin-top: 0px"><img src="img/5.jpg" style="width: 50%;height: 140px;" /> </h2>-->
-	    		<!--<p style="text-align: right;"><small>昨日打call数：999</small></p>-->
-	    		<!--<p>海賊王に俺わなる！</p>
-	            <p style="text-align: right;">Monkey·D</p>
-	            <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>-->
+				</div>
          	 </div>
 		</div>
 		<div class="row">
-          <div class="col-md-4">
+          <div th:each="charactor1,charactorStat1 : ${charactorsInfo}" class="col-md-4">
             <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
+			      <img th:src="${charactor1.displayImg}" alt="..." />
 			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
-			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
-			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-			      </div>
-	    	</div>
-          </div>
-          <div class="col-md-4">
-            <div class="thumbnail">
-			      <img src="img/5.jpg" alt="..." />
-			      <div class="caption">
-			        <h4>Thumbnail label</h4>
+			        <h4 th:text="${charactor1.charactorName}">Thumbnail label</h4>
 			        <p style="text-align: right;"><small>昨日打call数：999</small></p>
 			        <p style="text-align: right;"><a class="btn btn-success" href="#" role="button">打call <span class="glyphicon glyphicon-thumbs-up"></span></a></p>
 			      </div>

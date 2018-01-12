@@ -47,12 +47,12 @@ public class ManagerController {
 	
 	@RequestMapping(value="charactorsInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public String charactorsInfo(CharactorEntity charactorEntity, 
+	public ModelAndView charactorsInfo(CharactorEntity charactorEntity, 
 			HttpServletRequest request){
 		System.out.println(request.getServletContext().getContextPath());
 		System.out.println(request.getSession().getServletContext()
 				.getRealPath(""));
-		ModelAndView view = new ModelAndView("charactortoManage");
+		ModelAndView view = new ModelAndView("charactorsInfoSaveSuccess");
 		String pathRoot = request.getSession().getServletContext()
 				.getRealPath("");
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -98,6 +98,6 @@ public class ManagerController {
 		charactorService.updateForCharactor(charactorEntity);
 		view.addObject("charactorsInfo", charactorEntity);
 		view.addObject("displayFlag", false);
-		return "redirect:/pikapika/charactors";
+		return view;
 	}
 }
