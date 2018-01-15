@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.pikapika.app.mapper.BbsMapper;
 import com.pikapika.app.mb.service.impl.MbBbsServiceImpl;
+import com.pikapika.app.service.RedisService;
 
 @Configuration
 public class CxfConfiguration {
@@ -22,6 +25,12 @@ public class CxfConfiguration {
 	@Autowired
     private JavaMailSender mailSender; //自动注入的Bean
 	
+    @Autowired  
+    private StringRedisTemplate stringRedisTemplate;
+    
+    @Autowired
+    private RedisService redisService;
+    
 	@Value("${spring.mail.username}")
     private String sender; //读取配置文件中的参数
 	
@@ -33,7 +42,7 @@ public class CxfConfiguration {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
 		endpoint.setBus(bus);
 		endpoint.setAddress("/ws");
-		MbBbsServiceImpl mbBbsServiceImpl = new MbBbsServiceImpl(bbsMapper, mailSender);
+		MbBbsServiceImpl mbBbsServiceImpl = new MbBbsServiceImpl(bbsMapper, mailSender, stringRedisTemplate, redisService);
 		mbBbsServiceImpl.setSender(sender);
 		// Register 2 JAX-RS root resources supporting "/sayHello/{id}" and "/sayHello2/{id}" relative paths
 		endpoint.setServiceBeans(Arrays.<Object>asList(mbBbsServiceImpl));

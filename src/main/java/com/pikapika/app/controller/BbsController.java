@@ -8,12 +8,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageHelper;
 import com.pikapika.app.service.BbsService;
+import com.pikapika.app.service.RedisService;
 
 @Controller
 @RequestMapping("/pikapika")
 public class BbsController {
 	@Autowired
 	private BbsService bbsService; 
+	
+/*	@Autowired
+	private RedisService redisService;*/
 	
 	@RequestMapping(value="bbs", method = RequestMethod.GET)
 	public ModelAndView searchAllBbs(){

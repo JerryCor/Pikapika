@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	    <meta name="description" content="TOMODOCHI's index" />
+	    <meta name="author" content="xjzhu" />
+	    <link rel="icon" href="../../../../favicon.ico" />
+		<title>Pikapika</title>
+		
+		<!-- Bootstrap core CSS -->
+    	<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    	<link th:href="@{/css/jumbotron.css}" rel="stylesheet" />
+		<style>
+			.jumbotron{
+				//background:url(img/4.jpg);
+				background-repeat: no-repeat;
+				background-position: center;
+				height: 300px;
+			}
+		</style>
+	</head>
+	<body>
+	<header th:replace="common/top_header :: header"></header>
+		<div class="container">
+		<fieldset>
+			<legend>船员信息编辑</legend>
+		</fieldset>
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">信息编辑成功！</h3>
+			</div>
+			<div class="panel-body">
+				<span id="showMsg"></span>
+				<a th:href="@{/pikapika/charactors}">点击返回船员管理界面</a>
+				</div>
+		</div>
+	</div>
+  	<footer class="container">
+      <p>&copy; Company 2017</p>
+    </footer>
+		<script th:src="@{/js/jquery-3.2.1.min.js}" ></script>
+		<script th:src="@{/js/bootstrap.js}"></script>
+		<script th:src="@{/js/carousel.js}"></script>
+		<script>
+		$(function() {
+			var secs = 5; //倒计时的秒数 
+			Load(secs);
+		});
+		function Load(secs){
+			for(var i=secs;i>=0;i--) 
+			{ 
+			   window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000); 
+			} 
+		}
+		function doUpdate(num) 
+		{ 
+			if(num == 0) { 
+				window.location = 'http://localhost:8080/pikapika/charactors';
+			}else{
+				document.getElementById('showMsg').innerHTML = "编辑成功，将在"+num+"秒后自动跳转到船员管理页面," ;
+			}
+		}
+</script>
+	</body>
+</html>

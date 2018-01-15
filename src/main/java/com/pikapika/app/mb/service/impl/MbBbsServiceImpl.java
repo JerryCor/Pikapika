@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 import com.pikapika.app.entity.BbsEntity;
 import com.pikapika.app.mapper.BbsMapper;
 import com.pikapika.app.mb.service.MbBbsService;
+import com.pikapika.app.service.RedisService;
 import com.pikapika.app.util.CodeUtil;
 @Service
 public class MbBbsServiceImpl implements MbBbsService {
@@ -24,6 +26,10 @@ public class MbBbsServiceImpl implements MbBbsService {
 	
     private JavaMailSender mailSender; //自动注入的Bean
     
+    private StringRedisTemplate stringRedisTemplate;
+    
+    private RedisService redisService;
+    
     private String sender;
 	
     public void setSender(String sender){
@@ -31,14 +37,20 @@ public class MbBbsServiceImpl implements MbBbsService {
     }
 	
 	
-	public MbBbsServiceImpl(BbsMapper bbsMapper,JavaMailSender mailSender) {
+	public MbBbsServiceImpl(BbsMapper bbsMapper,JavaMailSender mailSender, 
+			StringRedisTemplate stringRedisTemplate, RedisService redisService) {
 		this.bbsMapper = bbsMapper;
 		this.mailSender = mailSender;
+		this.stringRedisTemplate = stringRedisTemplate;
+		this.redisService = redisService;
 	}
 
 	@Override
 	public String searchAllBbs(String pageNum, String pageSize) throws Exception {
 		Map<String, String> resultMap = new HashMap<>();
+		String key = stringRedisTemplate.opsForValue().get("mykey");
+		stringRedisTemplate.opsForValue().set("stringKey", "stringValue");
+		redisService.get("mykey");
 		String result = "";
 		ObjectMapper mapper = new ObjectMapper();
 		if(pageNum == null || pageSize == null 
