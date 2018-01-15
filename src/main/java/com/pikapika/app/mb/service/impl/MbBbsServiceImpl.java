@@ -48,8 +48,7 @@ public class MbBbsServiceImpl implements MbBbsService {
 	@Override
 	public String searchAllBbs(String pageNum, String pageSize) throws Exception {
 		Map<String, String> resultMap = new HashMap<>();
-		String key = stringRedisTemplate.opsForValue().get("mykey");
-		stringRedisTemplate.opsForValue().set("stringKey", "stringValue");
+		stringRedisTemplate.opsForValue().get("mykey");
 		redisService.get("mykey");
 		String result = "";
 		ObjectMapper mapper = new ObjectMapper();

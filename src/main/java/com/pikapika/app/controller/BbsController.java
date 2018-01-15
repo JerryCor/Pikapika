@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageHelper;
 import com.pikapika.app.service.BbsService;
-import com.pikapika.app.service.RedisService;
 
 @Controller
 @RequestMapping("/pikapika")
