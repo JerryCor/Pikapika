@@ -23,7 +23,7 @@ public class BbsController {
 		ModelAndView view = new ModelAndView("index");
 		try {
 			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("5"));
-			view.addObject("list", bbsService.searchAllBbs("1", "5"));
+			view.addObject("list", bbsService.searchAllBbs());
 		} catch (Exception e) {
 		}
 		return view;

@@ -16,7 +16,7 @@ public class BbsServiceImpl implements BbsService {
 	private BbsMapper bbsMapper;
 
 	@Override
-	public List<BbsEntity> searchAllBbs(String pageNum, String pageSize) throws Exception{
+	public List<BbsEntity> searchAllBbs() throws Exception{
 		List<BbsEntity> bbsList = bbsMapper.getAll();
 		if(bbsList!= null
 			&& !bbsList.isEmpty()){

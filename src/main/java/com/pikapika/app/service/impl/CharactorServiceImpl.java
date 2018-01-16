@@ -16,7 +16,7 @@ public class CharactorServiceImpl implements CharactorService {
 	private CharactorMapper charactorMapper;
 
 	@Override
-	public List<CharactorEntity> searchAllCharactors(String pageNum, String pageSize) throws Exception {
+	public List<CharactorEntity> searchAllCharactors() throws Exception {
 		List<CharactorEntity> charactorEntities = charactorMapper.getAllCharactors();
 		if(charactorEntities!= null
 				&& !charactorEntities.isEmpty()){

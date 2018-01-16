@@ -28,7 +28,7 @@ public class ManagerController {
 	@RequestMapping(value="charactors", method = RequestMethod.GET)
 	public ModelAndView charactors() throws Exception{
 		ModelAndView view = new ModelAndView("charactortoManage");
-		List<CharactorEntity> entities = charactorService.searchAllCharactors("1", "5");
+		List<CharactorEntity> entities = charactorService.searchAllCharactors();
 		view.addObject("charactorsInfos", entities);
 		view.addObject("charactorsInfo", new CharactorEntity());
 		return view;
