@@ -44,23 +44,22 @@ public class PikapikaController {
 	@Value("${pikapika.pageSize}")
 	private String pageSize;
 	
+	/**
+	 * 请求主页
+	 * @param request
+	 * @return 主页
+	 * @throws Exception
+	 */
 	@RequestMapping(value="index", method = RequestMethod.GET)
 	public ModelAndView index(HttpServletRequest request) throws Exception{
 		logger.info("正在访问PIKAPIKA......");
-		//toDo
 		String jsessionId = request.getSession().getId();
 		if(!redisService.isExist(jsessionId)
 				&& jsessionId!= null){
 			redisService.set(jsessionId, "user1", 30, TimeUnit.MINUTES);
 		}
-		ModelAndView view = new ModelAndView("pikapika");
-		view.addObject("activeModel", "index");
-		return view;
-	}
-	@RequestMapping(value="pikapikaIndex", method = RequestMethod.GET)
-	public ModelAndView searchAllBbs() throws Exception{
 		logger.info("正在访问PIKAPIKA主页......");
-		ModelAndView view = new ModelAndView("pikapikaIndex");
+		ModelAndView view = new ModelAndView("pikapika");
 		//查询角色
 		List<CharactorEntity> entities = charactorService.searchAllCharactors();
 		logger.info("查询所有角色 总共查到"+entities.size()+"位角色......");
@@ -72,6 +71,7 @@ public class PikapikaController {
 		logger.info("查询所有帖子-当前页数："+pageInfo.getPageNum()
 		+" 每页展示条数："+pageInfo.getPageSize()+" 总共页数:"+pageInfo.getPages()+" 条数："+pageInfo.getTotal());
 		view.addObject("charactorsInfo", entities);
+		view.addObject("activeModel", "index");
 		return view;
 	}
 }

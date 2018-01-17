@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<header>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="TOMODOCHI's index" />
+<meta name="author" content="xjzhu" />
+<link rel="icon" href="../../../../favicon.ico" />
+<title>Pikapika</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
 	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -18,12 +30,12 @@
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
-	        <li id="indexNav" th:class="${activeModel== 'index'} ? 'active' : ''"><a onclick="return indexManager();" href="#">主页 <span class="sr-only">(current)</span></a></li>
-	        <li id="talkNav" th:class="${activeModel== 'talk'} ? 'active' : ''"><a href="#">杂谈</a></li>
+	        <li id="indexNav" th:class="${activeModel== 'index'} ? 'active' : ''"><a th:href="@{/pikapika/index}">主页 <span class="sr-only">(current)</span></a></li>
+	        <li id="talkNav" th:class="${activeModel== 'bbs'} ? 'active' : ''"><a th:href="@{/pikapika/bbs}">杂谈</a></li>
 	        <li id="manageNav" th:class="${activeModel== 'charactors'} ? 'active' : ''" class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理 <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a onclick="return charactorsManager();" href="#" >船员管理</a></li>
+	            <li><a  th:href="@{/pikapika/charactors}" >船员管理</a></li>
 	            <li><a href="#">Another action</a></li>
 	            <li><a href="#">Something else here</a></li>
 	            <li role="separator" class="divider"></li>
@@ -53,5 +65,17 @@
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
-	</header>
+	
+	<div>
+        <div th:include="this :: content"></div>
+    </div>
+	<footer class="container">
+		<p>&copy; Company 2017</p>
+	</footer>
+	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<div>
+		<div th:include="this :: script"></div>
+	</div>
+</body>
 </html>

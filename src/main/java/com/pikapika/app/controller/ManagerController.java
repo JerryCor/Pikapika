@@ -25,26 +25,50 @@ public class ManagerController {
 	@Autowired
 	private CharactorService charactorService;
 	
+	/**
+	 * 请求船员一览页面
+	 * @return 船员一览页面
+	 * @throws Exception
+	 */
 	@RequestMapping(value="charactors", method = RequestMethod.GET)
 	public ModelAndView charactors() throws Exception{
-		ModelAndView view = new ModelAndView("charactortoManage");
+		ModelAndView view = new ModelAndView("charactors/charactortoManage");
 		List<CharactorEntity> entities = charactorService.searchAllCharactors();
 		view.addObject("charactorsInfos", entities);
 		view.addObject("charactorsInfo", new CharactorEntity());
+		view.addObject("activeModel", "charactors");
 		return view;
 	}
 	
+	/**
+	 * 请求船员详情页面
+	 * @param charactorId
+	 * @return 船员详情页面
+	 * @throws Exception
+	 */
 	@RequestMapping(value="charactorsInfo/{charactorId}", method = RequestMethod.GET)
-	public ModelAndView charactorsInfo(@PathVariable String charactorId){
-		ModelAndView view = new ModelAndView("charactortoManage");
+	public ModelAndView charactorsInfo(@PathVariable String charactorId) throws Exception{
+		ModelAndView view = new ModelAndView("charactors/charactortoManage");
 		CharactorEntity entity = charactorService.searchCharactorById(charactorId);
 		if(entity!= null && entity.getCharactorId()!= null){
 			view.addObject("charactorsInfo", entity);
 			view.addObject("displayFlag", true);
+			view.addObject("activeModel", "charactors");
+		}else{
+			List<CharactorEntity> entities = charactorService.searchAllCharactors();
+			view.addObject("charactorsInfos", entities);
+			view.addObject("charactorsInfo", new CharactorEntity());
+			view.addObject("activeModel", "charactors");
 		}
 		return view;
 	}
 	
+	/**
+	 * 更新船员信息
+	 * @param charactorEntity
+	 * @param request
+	 * @return 更新信息后页面
+	 */
 	@RequestMapping(value="charactorsInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView charactorsInfo(CharactorEntity charactorEntity, 
@@ -52,7 +76,7 @@ public class ManagerController {
 		System.out.println(request.getServletContext().getContextPath());
 		System.out.println(request.getSession().getServletContext()
 				.getRealPath(""));
-		ModelAndView view = new ModelAndView("charactorsInfoSaveSuccess");
+		ModelAndView view = new ModelAndView("charactors/charactorsInfoSaveSuccess");
 		String pathRoot = request.getSession().getServletContext()
 				.getRealPath("");
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -97,6 +121,7 @@ public class ManagerController {
 		}
 		charactorService.updateForCharactor(charactorEntity);
 		view.addObject("charactorsInfo", charactorEntity);
+		view.addObject("activeModel", "charactors");
 		view.addObject("displayFlag", false);
 		return view;
 	}

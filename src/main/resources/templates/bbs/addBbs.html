@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="common/pikapika_index_template">
+<head>
+<link th:href="@{/css/no-main.css}" rel="stylesheet" />
+</head>
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<div class="container">
+		</div>
+	</div>
+	<div th:fragment="script" th:remove="tag">
+		<script th:inline="javascript">
+		</script>
+    </div>
+</body>
+</html>

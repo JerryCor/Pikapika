@@ -20,12 +20,20 @@ public class BbsController {
 	
 	@RequestMapping(value="bbs", method = RequestMethod.GET)
 	public ModelAndView searchAllBbs(){
-		ModelAndView view = new ModelAndView("index");
+		ModelAndView view = new ModelAndView("bbs/bbsMenu");
 		try {
 			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("5"));
 			view.addObject("list", bbsService.searchAllBbs());
+			view.addObject("activeModel", "bbs");
 		} catch (Exception e) {
 		}
+		return view;
+	}
+	
+	@RequestMapping(value="bbs/addition", method = RequestMethod.GET)
+	public ModelAndView addBbs(){
+		ModelAndView view = new ModelAndView("bbs/addBbs");
+		view.addObject("activeModel", "bbs");
 		return view;
 	}
 }

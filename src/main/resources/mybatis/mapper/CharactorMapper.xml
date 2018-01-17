@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pikapika.app.mapper.CharactorMapper" >
-    <resultMap id="BaseResultMap" type="com.pikapika.app.entity.CharactorEntity" >
+    <resultMap id="BaseResultMap" type="Charactor" >
         <id column="c_id" property="charactorId" jdbcType="INTEGER" />
         <result column="c_name" property="charactorName" jdbcType="VARCHAR" />
         <result column="c_birthday" property="birthday" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
        FROM charactors where c_id = #{cId}
     </select>
     
-    <update id="updateCharactor" parameterType="com.pikapika.app.entity.CharactorEntity">
+    <update id="updateCharactor" parameterType="Charactor">
 		update charactors
 		 set 
 			c_name = #{charactorName},
