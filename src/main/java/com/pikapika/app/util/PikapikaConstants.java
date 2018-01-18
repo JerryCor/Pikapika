@@ -13,6 +13,24 @@ public class PikapikaConstants {
 	public static final String PAGE_SIZE = "5";
 	
 	/**
+	 * 成功和失败常量
+	 */
+	/** 成功:SUCCESS */
+	public static final String PIKAPIKA_SUCCESS_UPPER = "SUCCESS";
+	/** 成功:success */
+	public static final String PIKAPIKA_SUCCESS_LOWER = "success";
+	/** 失败:FAIL */
+	public static final String PIKAPIKA_FAIL_UPPER = "FAIL";
+	/** 失败:fail */
+	public static final String PIKAPIKA_FAIL_LOWER = "fail";
+	
+	/**
+	 * 上传图片常量
+	 */
+	/** 上传图片路径 */
+	public static final String PIKAPIKA_UPLOAD_IMG = "/ueditor/upload/image/";
+	
+	/**
 	 * 数字常量(string)
 	 */
 	public static final String STRING_NUB_0 = "0";
