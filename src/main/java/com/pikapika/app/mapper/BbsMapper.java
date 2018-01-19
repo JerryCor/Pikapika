@@ -14,7 +14,7 @@ public interface BbsMapper {
 	 * @param bbs
 	 * @return 帖子
 	 */
-	BbsEntity getBbsById(BbsEntity bbs);
+	BbsEntity getBbsById(String bbsId);
 	/**
 	 * 添加帖子
 	 * @param bbs

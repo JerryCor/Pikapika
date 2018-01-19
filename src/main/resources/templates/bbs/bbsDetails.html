@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="common/pikapika_index_template">
+<head>
+<link th:href="@{/css/no-main.css}" rel="stylesheet" />
+</head>
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<div class="container">
+			<h1 th:text="${bbs.bbsTitle}"></h1>
+			<div id="bbsContent" class="container" th:utext="${bbs.bbsContent}">
+			
+			</div>
+		</div>
+	</div>
+	<div th:fragment="script" th:remove="tag">
+		<script type="text/javascript" charset="utf-8"
+			th:src="@{/ueditor/ueditor.config.js}"></script>
+		<script type="text/javascript" charset="utf-8"
+			th:src="@{/ueditor/ueditor.all.js}"></script>
+		<script type="text/javascript">
+			//todo
+		</script>
+	</div>
+</body>
+</html>

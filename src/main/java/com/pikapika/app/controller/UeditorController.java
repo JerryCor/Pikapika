@@ -2,7 +2,6 @@ package com.pikapika.app.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -84,21 +83,109 @@ public class UeditorController {
 				} catch (IOException e) {
 					logger.error("添加图片失败......");
 					logger.error(e.getMessage());
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 		}
 		return jsonResult;
     }
 	
+	/**
+	 * 上传涂鸦
+	 * @param data 涂鸦data
+	 * @param request  请求对象
+	 * @return 上传结果
+	 * @throws IOException
+	 */
 	@RequestMapping(value="uploadscrawl", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadscrawl(@RequestParam("upfile") String data, 
-			HttpServletRequest request) {  
+			HttpServletRequest request) throws IOException {  
 		logger.info("开始添加涂鸦......");
-		//toDo
-		return null;
+		String jsonResult = "";
+		String imageName = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> result = new ConcurrentHashMap<>();
+		try {
+			imageName = FileUtil.uploadScrawl(data, request);
+			result.put("state", PikapikaConstants.PIKAPIKA_SUCCESS_UPPER);
+			result.put("url", PikapikaConstants.PIKAPIKA_UPLOAD_SCRAWL + imageName);
+			result.put("title", imageName);
+			result.put("original", imageName);
+			jsonResult = mapper.writeValueAsString(result);
+			logger.info("添加涂鸦成功......");
+		} catch (IOException e) {
+			logger.error("添加涂鸦失败......");
+			logger.error(e.getMessage());
+		}
+		return jsonResult;
+	}
+	
+	/**
+	 * 上传视频
+	 * @param data 视频data
+	 * @param request  请求对象
+	 * @return 上传结果
+	 * @throws IOException
+	 */
+	@RequestMapping(value="uploadvideo", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadvideo(@RequestParam("upfile") MultipartFile data, 
+			HttpServletRequest request) throws IOException {  
+		logger.info("开始添加视频......");
+		String jsonResult = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> result = new ConcurrentHashMap<>();
+		if(data!= null){
+			if(data.getOriginalFilename()!= null){
+				try {
+					String videoName = FileUtil.uploadVideo(data.getOriginalFilename(), data, request);
+					result.put("state", PikapikaConstants.PIKAPIKA_SUCCESS_UPPER);
+					result.put("url", PikapikaConstants.PIKAPIKA_UPLOAD_VIDEO + videoName);
+					result.put("title", data.getOriginalFilename());
+					result.put("original", data.getOriginalFilename());
+					jsonResult = mapper.writeValueAsString(result);
+					logger.info("添加视频成功......");
+				} catch (IOException e) {
+					logger.error("添加视频失败......");
+					logger.error(e.getMessage());
+				}
+			}
+		}
+		return jsonResult;
+	}
+	
+	/**
+	 * 上传附件
+	 * @param data 附件data
+	 * @param request  请求对象
+	 * @return 上传结果
+	 * @throws IOException
+	 */
+	@RequestMapping(value="uploadfile", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadfile(@RequestParam("upfile") MultipartFile data, 
+			HttpServletRequest request) throws IOException {  
+		logger.info("开始添加附件......");
+		String jsonResult = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> result = new ConcurrentHashMap<>();
+		if(data!= null){
+			if(data.getOriginalFilename()!= null){
+				try {
+					String fileName = FileUtil.uploadFile(data.getOriginalFilename(), data, request);
+					result.put("state", PikapikaConstants.PIKAPIKA_SUCCESS_UPPER);
+					result.put("url", PikapikaConstants.PIKAPIKA_UPLOAD_FILE + fileName);
+					result.put("title", data.getOriginalFilename());
+					result.put("original", data.getOriginalFilename());
+					jsonResult = mapper.writeValueAsString(result);
+					logger.info("添加附件成功......");
+				} catch (IOException e) {
+					logger.error("添加附件失败......");
+					logger.error(e.getMessage());
+				}
+			}
+		}
+		return jsonResult;
 	}
 	
 }

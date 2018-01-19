@@ -10,14 +10,14 @@
 	<div th:fragment="content" th:remove="tag">
 		<div class="container">
 			<fieldset>
-				<legend>船员信息编辑</legend>
+				<legend>发表帖子</legend>
 			</fieldset>
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<h3 class="panel-title">信息编辑成功！</h3>
+					<h3 class="panel-title">帖子发表成功！</h3>
 				</div>
 				<div class="panel-body">
-					<span id="showMsg"></span> <a th:href="@{/pikapika/charactors}">点击返回船员管理界面</a>
+					<span id="showMsg"></span> <a th:href="@{/pikapika/bbs}">点击返回杂谈主页</a>
 				</div>
 			</div>
 		</div>
@@ -35,10 +35,10 @@
 			}
 			function doUpdate(num) {
 				if (num == 0) {
-					window.location = 'http://localhost:8080/pikapika/charactors';
+					window.location = 'http://localhost:8080/pikapika/bbs';
 				} else {
-					document.getElementById('showMsg').innerHTML = "编辑成功，将在"
-							+ num + "秒后自动跳转到船员管理页面";
+					document.getElementById('showMsg').innerHTML = "发表成功，将在"
+							+ num + "秒后自动跳转到杂谈主页";
 				}
 			}
 		</script>

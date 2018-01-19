@@ -27,9 +27,16 @@ public class PikapikaConstants {
 	/**
 	 * 上传图片常量
 	 */
+	/** 上传图片格式（png） */
+	public static final String PIKAPIKA_IMG_PNG = "png";
 	/** 上传图片路径 */
 	public static final String PIKAPIKA_UPLOAD_IMG = "/ueditor/upload/image/";
-	
+	/** 上传涂鸦路径 */
+	public static final String PIKAPIKA_UPLOAD_SCRAWL = "/ueditor/upload/scrawl/";
+	/** 上传视频路径 */
+	public static final String PIKAPIKA_UPLOAD_VIDEO = "/ueditor/upload/video/";
+	/** 上传附件路径 */
+	public static final String PIKAPIKA_UPLOAD_FILE = "/ueditor/upload/file/";
 	/**
 	 * 数字常量(string)
 	 */

@@ -25,4 +25,14 @@ public class BbsServiceImpl implements BbsService {
 		return null;
 	}
 
+	@Override
+	public void postBbs(BbsEntity bbs) throws Exception {
+		bbsMapper.insertBbs(bbs);
+	}
+
+	@Override
+	public BbsEntity searchBbsById(String bbsId) throws Exception {
+		return bbsMapper.getBbsById(bbsId);
+	}
+
 }

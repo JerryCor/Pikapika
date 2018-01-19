@@ -15,4 +15,19 @@ public interface BbsService {
 	 * @throws Exception
 	 */
 	List<BbsEntity> searchAllBbs() throws Exception;
+	
+	/**
+	 * 搜寻指定帖子
+	 * @param bbsId 帖子ID
+	 * @return 帖子对象
+	 * @throws Exception
+	 */
+	BbsEntity searchBbsById(String bbsId) throws Exception;
+	
+	/**
+	 * 发布帖子
+	 * @param bbs 帖子对象
+	 * @throws Exception
+	 */
+	void postBbs(BbsEntity bbs) throws Exception;
 }

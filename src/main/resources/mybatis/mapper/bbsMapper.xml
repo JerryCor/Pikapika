@@ -4,7 +4,7 @@
 	<resultMap id="BaseResultMap" type="Bbs">
 		<id column="bbs_id" property="bbsId" jdbcType="INTEGER" />
 		<result column="bbs_title" property="bbsTitle" jdbcType="VARCHAR" />
-		<result column="bbs_content" property="bbsContent" jdbcType="VARCHAR" />
+		<result column="bbs_content" property="bbsContent" jdbcType="LONGVARCHAR" />
 		<result column="uaccount_id" property="uaccountId" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -19,7 +19,7 @@
 		FROM bbs
 	</select>
 
-	<select id="getBbsById" resultType="Bbs" parameterType="Bbs">
+	<select id="getBbsById" resultMap="BaseResultMap" parameterType="java.lang.String">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM bbs WHERE bbs_id = #{bbsId}
@@ -30,7 +30,7 @@
 		insert into bbs
 		(bbs_title,bbs_content,uaccount_id,create_time)
 		values
-		(#{bbsTitle},#{bbsContent},#{uaccountId},#{createTime})
+		(#{bbsTitle},#{bbsContent},#{uaccountId},now())
 	</insert>
 
 	<update id="updateBbs" parameterType="Bbs">
