@@ -32,7 +32,7 @@ public class BbsController {
 	public ModelAndView searchAllBbs(){
 		ModelAndView view = new ModelAndView("bbs/bbsMenu");
 		try {
-			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("5"));
+			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("10"));
 			view.addObject("bbsList", bbsService.searchAllBbs());
 			view.addObject("activeModel", "bbs");
 		} catch (Exception e) {
@@ -76,16 +76,18 @@ public class BbsController {
 	@RequestMapping(value="bbs/bbsList/{bbsId}", method = RequestMethod.GET)
 	public ModelAndView addBbs(@PathVariable("bbsId") String bbsId){
 		if(bbsId!= null){
+			logger.info("开始查找帖子： 帖子Id--->"+bbsId+" ......");
 			ModelAndView view = new ModelAndView("bbs/bbsDetails");
 			try {
 				BbsEntity bbs = bbsService.searchBbsById(bbsId);
 				view.addObject("bbs", bbs);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("查找帖子（帖子Id--->"+bbsId+"）失败......");
+				logger.error(e.getMessage());
 			}
 			return view;
 		}else{
+			logger.info("没有接收到帖子Id，跳转至杂谈主页......");
 			return new ModelAndView("redirect:bbs/bbs");
 		}
 	}

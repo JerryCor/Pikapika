@@ -20,7 +20,7 @@
 				</div>
 				<div class="form-group">
 					<script id="editor" type="text/plain"
-						style="width: 1024px; height: 500px;"></script>
+						style="width: 100%;max-width:1024px; height: 500px;"></script>
 				</div>
 				<div class="form-group">
 					<div class="row">
@@ -60,7 +60,9 @@
 					return '/pikapika/uploadvideo';
 				} else if (action == 'uploadfile') {
 					return '/pikapika/uploadfile';
-				} else {
+				} else if (action == "uploadsnap"){
+					return '/pikapika/uploadsnap';
+				}else {
 					return this._bkGetActionUrl.call(this, action);
 				}
 			}
@@ -181,6 +183,40 @@
 
 			}
 		</script>
+		<script type="text/javascript">   
+		    window.onbeforeunload = function(e){
+		    	return (e||window.event).returnValue='确认离开页面？！'
+		    },
+		    function onbeforeunload_handler(){ 
+		    	console.log("before exit");
+		        var warning="确认退出?";           
+		        return warning;   
+		    },
+		    
+		    //退出页面 清除缓存
+		   window.onunload = function(){
+		    	$.ajax({
+					type: "get",
+					url: "/pikapika/deleteTemplate?templateId=test123",
+					success: function(msg){
+					    //alert( "Data Saved: " + msg );
+					}
+		    	});
+		    };   
+		       
+		    function onunload_handler(){   
+		    	console.log("leave");
+		    	$.ajax({
+					type: "get",
+					url: "/pikapika/deleteTemplate?templateId=test123",
+					success: function(msg){
+					    alert( "Data Saved: " + msg );
+					}
+		    	});
+		        var warning="谢谢光临";   
+		        alert(warning);   
+		    }
+		</script> 
 	</div>
 </body>
 </html>

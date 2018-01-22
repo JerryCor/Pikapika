@@ -89,6 +89,17 @@ public class UeditorController {
 		return jsonResult;
     }
 	
+	@RequestMapping(value="uploadsnap", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadImage(@RequestParam("upfile") String uploadImg, 
+			HttpServletRequest request) {  
+		logger.info("开始添加图片......");
+		String jsonResult = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> result = new ConcurrentHashMap<>();
+		return jsonResult;
+    }
+	
 	/**
 	 * 上传涂鸦
 	 * @param data 涂鸦data
@@ -185,6 +196,17 @@ public class UeditorController {
 				}
 			}
 		}
+		return jsonResult;
+	}
+	
+	@RequestMapping(value="deleteTemplate", method = RequestMethod.GET)
+	@ResponseBody
+	public String uploadfile(@RequestParam("templateId") String templateId, 
+			HttpServletRequest request) throws IOException {  
+		logger.info("开始添加附件......");
+		String jsonResult = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> result = new ConcurrentHashMap<>();
 		return jsonResult;
 	}
 	
