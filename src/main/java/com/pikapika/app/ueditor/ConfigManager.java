@@ -23,29 +23,30 @@ public final class ConfigManager
   private JSONObject jsonConfig = null;
   private static final String SCRAWL_FILE_NAME = "scrawl";
   private static final String REMOTE_FILE_NAME = "remote";
+  private final String uaccountId;
 
-  private ConfigManager(String rootPath, String contextPath, String uri)
-    throws FileNotFoundException, IOException
-  {
-    rootPath = rootPath.replace("\\", "/");
+  private ConfigManager(String rootPath, String contextPath, String uri, String accountId)
+		    throws FileNotFoundException, IOException
+		  {
+		    rootPath = rootPath.replace("\\", "/");
 
-    this.rootPath = rootPath;
-    this.contextPath = contextPath;
+		    this.rootPath = rootPath;
+		    this.contextPath = contextPath;
 
-    if (contextPath.length() > 0)
-      this.originalPath = (this.rootPath + uri.substring(contextPath.length()));
-    else {
-      this.originalPath = (this.rootPath + uri);
-    }
+		    if (contextPath.length() > 0)
+		      this.originalPath = (this.rootPath + uri.substring(contextPath.length()));
+		    else {
+		      this.originalPath = (this.rootPath + uri);
+		    }
+		    this.uaccountId =accountId;
+		    initEnv();
+		  }
 
-    initEnv();
-  }
-
-  public static ConfigManager getInstance(String rootPath, String contextPath, String uri)
+  public static ConfigManager getInstance(String rootPath, String contextPath, String uri, String accountId)
   {
     try
     {
-      return new ConfigManager(rootPath, contextPath, uri); } catch (Exception e) {
+      return new ConfigManager(rootPath, contextPath, uri, accountId); } catch (Exception e) {
     }
     return null;
   }
@@ -62,7 +63,7 @@ public final class ConfigManager
 
   public Map<String, Object> getConfig(int type) throws JSONException
   {
-    Map conf = new HashMap();
+    Map<String, Object> conf = new HashMap<String, Object>();
     String savePath = null;
 
     switch (type)
@@ -104,7 +105,12 @@ public final class ConfigManager
       break;
     case 7:
       conf.put("allowFiles", getArray("imageManagerAllowFiles"));
-      conf.put("dir", this.jsonConfig.getString("imageManagerListPath"));
+      if(uaccountId!= null
+    		  && !uaccountId.isEmpty()){
+    	  conf.put("dir", this.jsonConfig.getString("imageManagerListPath") + uaccountId + "/");
+      }else{
+    	  conf.put("dir", this.jsonConfig.getString("imageManagerListPath"));
+      }
       conf.put("count", Integer.valueOf(this.jsonConfig.getInt("imageManagerListSize")));
       break;
     case 6:

@@ -62,7 +62,7 @@
 					return '/pikapika/uploadfile';
 				} else if (action == "uploadsnap"){
 					return '/pikapika/uploadsnap';
-				}else {
+				}else{
 					return this._bkGetActionUrl.call(this, action);
 				}
 			}
@@ -182,19 +182,27 @@
 				$("#bbsForm").submit();
 
 			}
+
+
+			/* setTimeout(function () {
+				ue.execCommand('drafts');
+			}, 500); */
+			/* ue.ready(function() {
+				ue.setContent('UEditor报错TypeError: me.body is undefined',false);
+			}); */
 		</script>
 		<script type="text/javascript">   
-		    window.onbeforeunload = function(e){
+		    /* window.onbeforeunload = function(e){
 		    	return (e||window.event).returnValue='确认离开页面？！'
 		    },
 		    function onbeforeunload_handler(){ 
 		    	console.log("before exit");
 		        var warning="确认退出?";           
 		        return warning;   
-		    },
+		    } */
 		    
 		    //退出页面 清除缓存
-		   window.onunload = function(){
+		   /* window.onunload = function(){
 		    	$.ajax({
 					type: "get",
 					url: "/pikapika/deleteTemplate?templateId=test123",
@@ -215,7 +223,7 @@
 		    	});
 		        var warning="谢谢光临";   
 		        alert(warning);   
-		    }
+		    } */
 		</script> 
 	</div>
 </body>

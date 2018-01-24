@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.baidu.ueditor.ActionEnter;
+import com.pikapika.app.dto.FileDto;
+import com.pikapika.app.service.FileService;
+import com.pikapika.app.ueditor.ActionEnter;
 import com.pikapika.app.util.FileUtil;
 import com.pikapika.app.util.PikapikaConstants;
 
@@ -30,6 +33,8 @@ public class UeditorController {
 	
 	private static Logger logger =LoggerFactory.getLogger(UeditorController.class);
 	
+	@Autowired
+	private FileService fileService;
 	
 	/**
 	 * 请求ueditor配置
@@ -37,23 +42,31 @@ public class UeditorController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="ueditor", method = RequestMethod.GET)
-	public void config(HttpServletRequest request, HttpServletResponse response) {  
+	public void config(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="action", required=false) String action) {  
         //response.setContentType("application/json");  
 		logger.info("正在配置ueditor......");
         response.setHeader("Content-Type" , "text/html");
         String rootPath = request.getSession().getServletContext()  
                 .getRealPath("/");  
         try {  
-            String exec = new ActionEnter(request, rootPath).exec();  
+            String exec = new ActionEnter(request, rootPath, "zxj123").exec();
+            if(action!=null
+            		&& !action.isEmpty()
+            		&& "listimage".equals(action)){
+            	rootPath = rootPath.replace("\\", "/");  
+            	exec = exec.replaceAll(rootPath, "/");  
+            }
             PrintWriter writer = response.getWriter();  
             writer.write(exec);  
             writer.flush();  
             writer.close();  
-        } catch (IOException e) {  
+        } catch (Exception e) {  
             e.printStackTrace();  
         }
         logger.info("配置ueditor完成......");
     }
+	
 	/**
 	 * 上传图片
 	 * @param action 请求方法
@@ -72,15 +85,15 @@ public class UeditorController {
 		if(uploadImg!= null){
 			if(uploadImg.getContentType()!= null){
 				try {
-					String contentType = uploadImg.getContentType();
-					String imageName = FileUtil.uploadImg(contentType, uploadImg, request);
+					FileDto dto = FileUtil.makeFileEntity(request, uploadImg, PikapikaConstants.PIKAPIKA_IMG);
+					dto = fileService.uploadFile(dto);
 					result.put("state", PikapikaConstants.PIKAPIKA_SUCCESS_UPPER);
-					result.put("url", PikapikaConstants.PIKAPIKA_UPLOAD_IMG + imageName);
-					result.put("title", imageName);
-					result.put("original", uploadImg.getOriginalFilename());
+					result.put("url", dto.getFilePath() +"/"+ dto.getFileName());
+					result.put("title", dto.getOriginalName());
+					result.put("original", dto.getOriginalName());
 					jsonResult = mapper.writeValueAsString(result);
 					logger.info("添加图片成功......");
-				} catch (IOException e) {
+				} catch (Exception e) {
 					logger.error("添加图片失败......");
 					logger.error(e.getMessage());
 				}
@@ -89,7 +102,7 @@ public class UeditorController {
 		return jsonResult;
     }
 	
-	@RequestMapping(value="uploadsnap", method = RequestMethod.POST)
+/*	@RequestMapping(value="uploadsnap", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadImage(@RequestParam("upfile") String uploadImg, 
 			HttpServletRequest request) {  
@@ -98,7 +111,7 @@ public class UeditorController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> result = new ConcurrentHashMap<>();
 		return jsonResult;
-    }
+    }*/
 	
 	/**
 	 * 上传涂鸦
@@ -199,7 +212,7 @@ public class UeditorController {
 		return jsonResult;
 	}
 	
-	@RequestMapping(value="deleteTemplate", method = RequestMethod.GET)
+/*	@RequestMapping(value="deleteTemplate", method = RequestMethod.GET)
 	@ResponseBody
 	public String uploadfile(@RequestParam("templateId") String templateId, 
 			HttpServletRequest request) throws IOException {  
@@ -208,6 +221,5 @@ public class UeditorController {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> result = new ConcurrentHashMap<>();
 		return jsonResult;
-	}
-	
+	}*/
 }

@@ -25,8 +25,14 @@ public class PikapikaConstants {
 	public static final String PIKAPIKA_FAIL_LOWER = "fail";
 	
 	/**
-	 * 上传图片常量
+	 * 上传常量
 	 */
+	/** 上传类型（img） */
+	public static final String PIKAPIKA_IMG = "img";
+	/** 上传类型（video） */
+	public static final String PIKAPIKA_VIDEO = "video";
+	/** 上传类型（word） */
+	public static final String PIKAPIKA_WORD = "word";
 	/** 上传图片格式（png） */
 	public static final String PIKAPIKA_IMG_PNG = "png";
 	/** 上传图片路径 */

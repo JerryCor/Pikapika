@@ -1,17 +1,15 @@
 package com.pikapika.app.ueditor;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.json.JSONException;
-
 import com.baidu.ueditor.define.ActionMap;
 import com.baidu.ueditor.define.BaseState;
 import com.baidu.ueditor.define.State;
 import com.baidu.ueditor.hunter.FileManager;
 import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONException;
 
 public class ActionEnter
 {
@@ -24,16 +22,16 @@ public class ActionEnter
 
   private ConfigManager configManager = null;
 
-  public ActionEnter(HttpServletRequest request, String rootPath)
+  public ActionEnter(HttpServletRequest request, String rootPath, String uaccountId)
   {
     this.request = request;
     this.rootPath = rootPath;
     this.actionType = request.getParameter("action");
     this.contextPath = request.getContextPath();
-    this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, request.getRequestURI());
+    this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, request.getRequestURI(), uaccountId);
   }
 
-  public String exec() throws JSONException
+  public String exec() throws Exception
   {
     String callbackName = this.request.getParameter("callback");
 
@@ -63,7 +61,7 @@ public class ActionEnter
 
     int actionCode = ActionMap.getType(this.actionType);
 
-    Map conf = null;
+    Map<String, Object> conf = null;
 
     switch (actionCode)
     {

@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.pikapika.app.dto.FileDto;
 
 import sun.misc.BASE64Decoder;
 
@@ -22,25 +25,27 @@ public class FileUtil {
 	/**
 	 * 上传图片
 	 * @param contentType 图片类型
+	 * @param userName 用户名称
 	 * @param multipartFile 图片对象
-	 * @param request 请求
+	 * @param resourcePath 资源路径
 	 * @return 上传成功图片名称
 	 * @throws IOException
 	 */
-	public static String uploadImg(String contentType, MultipartFile multipartFile,
-			HttpServletRequest request) throws IOException{
+	public static FileDto uploadImg(MultipartFile multipartFile, FileDto fileDto, 
+			String contentType, String userName, String resourcePath) throws IOException{
 			// 获得图片后缀名称
 			String imageType = contentType.substring(contentType.indexOf("/") + 1);
 			String imageName = UUID.randomUUID().toString().replaceAll("-", "") + "." + imageType;
-			String imgpath = request.getSession().getServletContext()
-					.getRealPath(PikapikaConstants.PIKAPIKA_UPLOAD_IMG );
+			String imgpath = resourcePath + PikapikaConstants.PIKAPIKA_UPLOAD_IMG + userName;
 			File file = new File(imgpath);
 			if(!file.exists() && !file.isDirectory()){
 				file.mkdirs();
 			}
-			String path = imgpath + "/"+ imageName;
+			String path = imgpath + "/" + imageName;
 			multipartFile.transferTo(new File(path));
-			return imageName;
+			fileDto.setFileName(imageName);
+			fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_IMG + userName);
+			return fileDto;
 			/*InputStream is = multipartFile.getInputStream();
 			OutputStream out = new FileOutputStream(new File(
 					path));
@@ -134,5 +139,24 @@ public class FileUtil {
 			String path = filepath + "/"+ fileName;
 			multipartFile.transferTo(new File(path));
 			return fileName;
+	}
+	/**
+	 * 生成FileDto
+	 * @param request 请求信息
+	 * @param file 上传文件
+	 * @param fileType 文件类型
+	 * @return FileDto
+	 * @throws MalformedURLException
+	 */
+	public static FileDto makeFileEntity(HttpServletRequest request, MultipartFile file, String fileType) throws MalformedURLException{
+		FileDto dto = new FileDto();
+		dto.setContentType(file.getContentType());
+		dto.setFileType(fileType);
+		dto.setOriginalName(file.getOriginalFilename());
+		dto.setResourcePath(request.getServletContext().getResource("/").getPath());
+		dto.setFile(file);
+		//todo
+		dto.setUaccountId("zxj123");
+		return dto;
 	}
 }

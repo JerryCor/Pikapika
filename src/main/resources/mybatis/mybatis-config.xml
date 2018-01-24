@@ -6,5 +6,6 @@
     <typeAliases>
         <typeAlias alias="Bbs" type="com.pikapika.app.entity.BbsEntity" />
        	<typeAlias alias="Charactor" type="com.pikapika.app.entity.CharactorEntity" />
+        <typeAlias alias="fileEntity" type="com.pikapika.app.entity.FileEntity" />
     </typeAliases>
 </configuration>
