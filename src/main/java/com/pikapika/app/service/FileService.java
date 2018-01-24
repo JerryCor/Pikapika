@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.pikapika.app.dto.FileDto;
+import com.pikapika.app.dto.ListImageDto;
 import com.pikapika.app.entity.FileEntity;
 @Service
 public interface FileService {
@@ -31,6 +32,15 @@ public interface FileService {
 	 * @throws Exception
 	 */
 	List<FileEntity> searchFiles(String fileType, String uaccountId) throws Exception;
+	
+	/**
+	 * 搜寻文件URL通过用户Id和文件类型
+	 * @param fileType 文件类型
+	 * @param uaccountId 用户Id
+	 * @return 文件URL列表
+	 * @throws Exception
+	 */
+	List<ListImageDto> searchFileUrls(String fileType, String uaccountId) throws Exception;
 	
 	/**
 	 * 上传文件

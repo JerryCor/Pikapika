@@ -32,6 +32,13 @@
 		<include refid="Base_Column_List" />
 		FROM pikapika_file WHERE file_type = #{fileType} and uaccount_id = #{uaccountId}
 	</select>
+	
+	<select id="getFileUrlByKey" resultType="com.pikapika.app.dto.ListImageDto">
+		SELECT
+		concat(file_path, file_name) AS url
+		FROM pikapika_file WHERE file_type = #{fileType} and uaccount_id = #{uaccountId}
+		order by create_time desc
+	</select>
 
 	<insert id="insertFile" parameterType="fileEntity" keyProperty="file_id"
 		useGeneratedKeys="true">

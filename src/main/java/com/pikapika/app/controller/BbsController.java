@@ -32,7 +32,7 @@ public class BbsController {
 	public ModelAndView searchAllBbs(){
 		ModelAndView view = new ModelAndView("bbs/bbsMenu");
 		try {
-			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("10"));
+			PageHelper.startPage(Integer.valueOf("1"), Integer.valueOf("20"));
 			view.addObject("bbsList", bbsService.searchAllBbs());
 			view.addObject("activeModel", "bbs");
 		} catch (Exception e) {

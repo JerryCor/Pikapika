@@ -35,6 +35,8 @@ public class PikapikaConstants {
 	public static final String PIKAPIKA_WORD = "word";
 	/** 上传图片格式（png） */
 	public static final String PIKAPIKA_IMG_PNG = "png";
+	/** 上传类型（scrawl） */
+	public static final String PIKAPIKA_IMG_SCRAWL = "scrawl";
 	/** 上传图片路径 */
 	public static final String PIKAPIKA_UPLOAD_IMG = "/ueditor/upload/image/";
 	/** 上传涂鸦路径 */
@@ -42,7 +44,7 @@ public class PikapikaConstants {
 	/** 上传视频路径 */
 	public static final String PIKAPIKA_UPLOAD_VIDEO = "/ueditor/upload/video/";
 	/** 上传附件路径 */
-	public static final String PIKAPIKA_UPLOAD_FILE = "/ueditor/upload/file/";
+	public static final String PIKAPIKA_UPLOAD_FILE = "/ueditor/upload/word/";
 	/**
 	 * 数字常量(string)
 	 */

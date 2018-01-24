@@ -62,7 +62,9 @@
 					return '/pikapika/uploadfile';
 				} else if (action == "uploadsnap"){
 					return '/pikapika/uploadsnap';
-				}else{
+				} else if (action == "listimage"){
+					return '/pikapika/listimage';
+				} else{
 					return this._bkGetActionUrl.call(this, action);
 				}
 			}

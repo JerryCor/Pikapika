@@ -14,6 +14,8 @@ public class FileDto extends FileEntity implements Serializable {
 	
 	private String resourcePath;
 	
+	private String base64Code;
+	
 	private MultipartFile file;
 	
 	public String getContentType() {
@@ -30,6 +32,14 @@ public class FileDto extends FileEntity implements Serializable {
 
 	public void setResourcePath(String resourcePath) {
 		this.resourcePath = resourcePath;
+	}
+
+	public String getBase64Code() {
+		return base64Code;
+	}
+
+	public void setBase64Code(String base64Code) {
+		this.base64Code = base64Code;
 	}
 
 	public MultipartFile getFile() {

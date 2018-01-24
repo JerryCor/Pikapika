@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.pikapika.app.dto.ListImageDto;
 import com.pikapika.app.entity.FileEntity;
 public interface FileMapper {
 	/**
@@ -17,7 +18,6 @@ public interface FileMapper {
 	 * @return 文件列表
 	 */
 	List<FileEntity> getFilesByUaccountId(@Param("uaccountId") String uaccountId);
-	
 	/**
 	 * 获取对应文件通过用户Id和文件类型
 	 * @param fileType 文件类型
@@ -25,6 +25,14 @@ public interface FileMapper {
 	 * @return 文件列表
 	 */
 	List<FileEntity> getFilesByKey(@Param("fileType") String fileType, @Param("uaccountId") String uaccountId);
+	
+	/**
+	 * 获取对应文件URL通过用户Id和文件类型
+	 * @param fileType 文件类型
+	 * @param uaccountId 用户Id
+	 * @return 文件列表
+	 */
+	List<ListImageDto> getFileUrlByKey(@Param("fileType") String fileType, @Param("uaccountId") String uaccountId);
 	/**
 	 * 添加文件
 	 * @param file
