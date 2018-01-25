@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +33,6 @@ public class FileUtil {
 	 *            图片类型
 	 * @param fileDto
 	 *            图片信息
-	 * @param userName
-	 *            用户名称
 	 * @param multipartFile
 	 *            图片对象
 	 * @param resourcePath
@@ -43,12 +40,12 @@ public class FileUtil {
 	 * @return 上传成功的图片对象
 	 * @throws IOException
 	 */
-	public static FileDto uploadImg(MultipartFile multipartFile, FileDto fileDto, String contentType, String userName,
+	public static FileDto uploadImg(MultipartFile multipartFile, FileDto fileDto, String contentType, 
 			String resourcePath) throws IOException {
 		// 获得图片后缀名称
 		String imageType = contentType.substring(contentType.indexOf("/") + 1);
 		String imageName = UUID.randomUUID().toString().replaceAll("-", "") + "." + imageType;
-		String imgpath = resourcePath + PikapikaConstants.PIKAPIKA_UPLOAD_IMG + userName;
+		String imgpath = resourcePath + PikapikaConstants.PIKAPIKA_UPLOAD_IMG;
 		File file = new File(imgpath);
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();
@@ -56,7 +53,7 @@ public class FileUtil {
 		String path = imgpath + "/" + imageName;
 		multipartFile.transferTo(new File(path));
 		fileDto.setFileName(imageName);
-		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_IMG + userName + "/");
+		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_IMG);
 		return fileDto;
 		/*
 		 * InputStream is = multipartFile.getInputStream(); OutputStream out =
@@ -78,7 +75,7 @@ public class FileUtil {
 	public static FileDto uploadScrawl(FileDto fileDto) throws IOException {
 		// 获得涂鸦后缀名称
 		String imageName = UUID.randomUUID().toString().replaceAll("-", "") + "." + PikapikaConstants.PIKAPIKA_IMG_PNG;
-		String imgpath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_SCRAWL + fileDto.getUaccountId();
+		String imgpath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_SCRAWL;
 		File file = new File(imgpath);
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();
@@ -98,7 +95,7 @@ public class FileUtil {
 		out.close();
 		fileDto.setFileName(imageName);
 		fileDto.setOriginalName(imageName);
-		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_SCRAWL + fileDto.getUaccountId() + "/");
+		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_SCRAWL);
 		return fileDto;
 	}
 
@@ -114,8 +111,7 @@ public class FileUtil {
 		// 获得视频后缀名称
 		String videoType = fileDto.getOriginalName().substring(fileDto.getOriginalName().lastIndexOf(".") + 1);
 		String videoName = UUID.randomUUID().toString().replaceAll("-", "") + "." + videoType;
-		String videopath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_VIDEO
-				+ fileDto.getUaccountId();
+		String videopath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_VIDEO;
 		File file = new File(videopath);
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();
@@ -123,7 +119,7 @@ public class FileUtil {
 		String path = videopath + "/" + videoName;
 		fileDto.getFile().transferTo(new File(path));
 		fileDto.setFileName(videoName);
-		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_VIDEO + fileDto.getUaccountId() + "/");
+		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_VIDEO);
 		return fileDto;
 	}
 
@@ -139,7 +135,7 @@ public class FileUtil {
 		// 获得附件后缀名称
 		String fileType = fileDto.getOriginalName().substring(fileDto.getOriginalName().lastIndexOf(".") + 1);
 		String fileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + fileType;
-		String filepath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_FILE + fileDto.getUaccountId();
+		String filepath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_FILE;
 		File file = new File(filepath);
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();
@@ -147,7 +143,7 @@ public class FileUtil {
 		String path = filepath + "/" + fileName;
 		fileDto.getFile().transferTo(new File(path));
 		fileDto.setFileName(fileName);
-		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_FILE + fileDto.getUaccountId() + "/");
+		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_FILE);
 		return fileDto;
 	}
 

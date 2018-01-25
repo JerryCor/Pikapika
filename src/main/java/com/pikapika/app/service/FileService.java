@@ -34,6 +34,14 @@ public interface FileService {
 	List<FileEntity> searchFiles(String fileType, String uaccountId) throws Exception;
 	
 	/**
+	 * 搜寻对应收藏图片通过用户Id
+	 * @param uaccountId 用户Id
+	 * @return 图片列表
+	 * @throws Exception
+	 */
+	List<FileEntity> searchPicCollection(String uaccountId) throws Exception;
+	
+	/**
 	 * 搜寻文件URL通过用户Id和文件类型
 	 * @param fileType 文件类型
 	 * @param uaccountId 用户Id

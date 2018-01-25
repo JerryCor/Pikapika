@@ -33,6 +33,14 @@ public interface FileMapper {
 	 * @return 文件列表
 	 */
 	List<ListImageDto> getFileUrlByKey(@Param("fileType") String fileType, @Param("uaccountId") String uaccountId);
+	
+	/**
+	 * 获取对应收藏图片通过用户Id
+	 * @param uaccountId 用户Id
+	 * @return 图片列表
+	 */
+	List<FileEntity> getPicCollection(@Param("uaccountId") String uaccountId);
+	
 	/**
 	 * 添加文件
 	 * @param file

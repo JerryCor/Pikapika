@@ -38,13 +38,13 @@ public class PikapikaConstants {
 	/** 上传类型（scrawl） */
 	public static final String PIKAPIKA_IMG_SCRAWL = "scrawl";
 	/** 上传图片路径 */
-	public static final String PIKAPIKA_UPLOAD_IMG = "/ueditor/upload/image/";
+	public static final String PIKAPIKA_UPLOAD_IMG = "/ueditor/upload/bbs/image/";
 	/** 上传涂鸦路径 */
-	public static final String PIKAPIKA_UPLOAD_SCRAWL = "/ueditor/upload/scrawl/";
+	public static final String PIKAPIKA_UPLOAD_SCRAWL = "/ueditor/upload/bbs/scrawl/";
 	/** 上传视频路径 */
-	public static final String PIKAPIKA_UPLOAD_VIDEO = "/ueditor/upload/video/";
+	public static final String PIKAPIKA_UPLOAD_VIDEO = "/ueditor/upload/bbs/video/";
 	/** 上传附件路径 */
-	public static final String PIKAPIKA_UPLOAD_FILE = "/ueditor/upload/word/";
+	public static final String PIKAPIKA_UPLOAD_FILE = "/ueditor/upload/bbs/word/";
 	/**
 	 * 数字常量(string)
 	 */

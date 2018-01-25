@@ -51,8 +51,7 @@ public class FileServiceImpl implements FileService {
 	public FileDto uploadFile(FileDto file) throws Exception {
 		FileEntity entity = new FileEntity();
 		if (PikapikaConstants.PIKAPIKA_IMG.equals(file.getFileType())) {
-			file = FileUtil.uploadImg(file.getFile(), file, file.getContentType(), file.getUaccountId(),
-					file.getResourcePath());
+			file = FileUtil.uploadImg(file.getFile(), file, file.getContentType(), file.getResourcePath());
 			BeanUtils.copyProperties(file, entity);
 			fileMapper.insertFile(entity);
 			return file;
@@ -88,6 +87,15 @@ public class FileServiceImpl implements FileService {
 		List<ListImageDto> fileUrls = fileMapper.getFileUrlByKey(fileType, uaccountId);
 		if (fileUrls != null && !fileUrls.isEmpty()) {
 			return fileUrls;
+		}
+		return null;
+	}
+
+	@Override
+	public List<FileEntity> searchPicCollection(String uaccountId) throws Exception {
+		List<FileEntity> picCollection = fileMapper.getPicCollection(uaccountId);
+		if(picCollection != null && !picCollection.isEmpty()){
+			return picCollection;
 		}
 		return null;
 	}

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pikapika.app.entity.CharactorEntity;
+import com.pikapika.app.entity.FileEntity;
 import com.pikapika.app.service.CharactorService;
+import com.pikapika.app.service.FileService;
 
 @Controller
 @RequestMapping("/pikapika")
@@ -24,6 +26,9 @@ public class ManagerController {
 	
 	@Autowired
 	private CharactorService charactorService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	/**
 	 * 请求船员一览页面
@@ -123,6 +128,21 @@ public class ManagerController {
 		view.addObject("charactorsInfo", charactorEntity);
 		view.addObject("activeModel", "charactors");
 		view.addObject("displayFlag", false);
+		return view;
+	}
+	
+	
+	
+	/**
+	 * 请求图片收藏页面
+	 * @return 图片收藏页面
+	 * @throws Exception
+	 */
+	@RequestMapping(value="picCollection", method = RequestMethod.GET)
+	public ModelAndView picCollection() throws Exception{
+		ModelAndView view = new ModelAndView("picCollection/pictoManage");
+		List<FileEntity> picCollection = fileService.searchPicCollection("zxj123");
+		view.addObject("picCollection", picCollection);
 		return view;
 	}
 }

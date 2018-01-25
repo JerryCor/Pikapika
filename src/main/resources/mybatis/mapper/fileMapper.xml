@@ -7,12 +7,13 @@
 		<result column="file_original_name" property="originalName" jdbcType="VARCHAR" />
 		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
 		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="is_collection" property="isCollection" jdbcType="INTEGER" />
 		<result column="uaccount_id" property="uaccountId" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		file_id, file_name, file_original_name, file_path, file_type, uaccount_id, create_time
+		file_id, file_name, file_original_name, file_path, file_type, is_collection, uaccount_id, create_time
 	</sql>
 
 	<select id="getFiles" resultMap="BaseResultMap">
@@ -39,13 +40,20 @@
 		FROM pikapika_file WHERE file_type = #{fileType} and uaccount_id = #{uaccountId}
 		order by create_time desc
 	</select>
+	
+	<select id="getPicCollection"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM pikapika_file WHERE is_collection = 1 and uaccount_id = #{uaccountId}
+		order by create_time desc
+	</select>
 
 	<insert id="insertFile" parameterType="fileEntity" keyProperty="file_id"
 		useGeneratedKeys="true">
 		insert into pikapika_file
-		(file_name, file_original_name, file_path, file_type, uaccount_id, create_time)
+		(file_name, file_original_name, file_path, file_type, is_collection, uaccount_id, create_time)
 		values
-		(#{fileName},#{originalName},#{filePath},#{fileType},#{uaccountId},now())
+		(#{fileName}, #{originalName}, #{filePath}, #{fileType}, #{isCollection},#{uaccountId}, now())
 	</insert>
 
 	<!-- <update id="updateFile" parameterType="fileEntity">
