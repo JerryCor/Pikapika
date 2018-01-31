@@ -4,6 +4,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="common/pikapika_index_template">
 <head>
 <link th:href="@{/css/no-main.css}" rel="stylesheet" />
+<link th:href="@{/webuploader-0.1.5/webuploader.css}" rel="stylesheet" />
+<style>
+.thumbnail-no-img {
+ display: block;
+ padding: 4px;
+ margin-bottom: 20px;
+ line-height: 1.42857143;
+ background-color: #fff;
+ border: 1px solid #ddd;
+ border-radius: 4px;
+ -webkit-transition: border .2s ease-in-out;
+      -o-transition: border .2s ease-in-out;
+         transition: border .2s ease-in-out;
+}
+.thumbnail-no-img > img,
+.thumbnail-no-img a > img {
+  margin-right: auto;
+  margin-left: auto;
+}
+a.thumbnail-no-img:hover,
+a.thumbnail-no-img:focus,
+a.thumbnail-no-img.active {
+}
+.thumbnail-no-img .caption {
+  padding: 9px;
+  color: #333;
+}
+</style>
 </head>
 <body>
 	<div th:fragment="content" th:remove="tag">
@@ -12,68 +40,234 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 				<div class="col-md-9">
 					<div class="col-md-3" th:each="pic,picStat : ${picCollection}">
 						<div class="thumbnail">
-								<img style="width:100%;height:100%;" th:src="${pic.filePath + pic.fileName}" />
-							<div class="caption">
-								<h4>Thumbnail label</h4>
-								<p>
-									<input type="checkbox" th:value="${pic.fileId}" />
+								<a th:onclick="'javascript:imgClick('+ ${pic.fileId} +')'" class="thumbnail">
+									<img  style="width:140px;height:140px;" th:src="${pic.filePath + pic.fileName}" />
+								</a>
+								<p style="text-align: center;">
+									<input th:id="${pic.fileId}" name="imgList" type="checkbox" th:value="${pic.fileId}" />
 								</p>
-							</div>
 						</div>
 					</div>
+					<th:block th:if="${pageInfo.size} lt ${pageInfo.pageSize}" th:each="i:${#numbers.sequence(pageInfo.size + 1,pageInfo.pageSize)}">
+						<div class="col-md-3">
+								<div class="thumbnail">
+									<a  class="thumbnail-no-img">
+										<img style="width:140px;height:140px;" th:src="@{/images/image.png}" />
+									</a>
+									<p style="text-align: center;">
+										<input type="checkbox" disabled="disabled" />
+									</p>
+								</div>
+						</div>
+					</th:block>
 				</div>
 				<div class="col-md-3">
 					<ul class="list-group">
 					  <li class="list-group-item">
-						<a href="#">添加图片</a>
+						<a data-toggle="modal" data-target="#myModal">添加图片</a>
 					  </li>
 					  <li class="list-group-item">
 						<a href="#">删除图片</a>
 					  </li>
 					  <li class="list-group-item">
-					  	<a href="#">全选当前页</a>
+					  	<a th:onclick="'javascript:imgAllCheck()'" >全选当前页</a>
+					  </li>
+					  <li class="list-group-item">
+					  	<a th:onclick="'javascript:imgAllUncheck()'" >取消全选当前页</a>
 					  </li>
 					</ul>
 				</div>
 			</div>
 			<div class="row">
-				<nav style="text-align: center" aria-label="Page navigation">
-				  <ul class="pagination pagination-lg">
-				    <li th:class="${pageInfo.pageNum == 1} ? 'disabled' : ''" >
-				      <a href="#" aria-label="firstPage">
-				        <span>首页</span>
-				      </a>
-				    </li>
-				    <li th:class="${pageInfo.pageNum == 1} ? 'disabled' : ''" >
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li th:each="i : ${#numbers.sequence(pageInfo.pageNum, pageInfo.pages)}" >
-				      <a href="#" aria-label="Previous">
-				        <span th:text="${i}"></span>
-				      </a>
-				    </li>
-				    <li>
-				      <a th:onclick="'javascript:pageNext('+${pageInfo.pageNum + 1}+')'"  aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				    <li>
-				      <a href="#" aria-label="LastPage">
-				        <span>尾页</span>
-				      </a>
-				    </li>
-				  </ul>
-				</nav>
+				<div class="col-md-offset-7 col-md-5">
+					<p th:text="'当前 '+${pageInfo.pageNum}+' 页，总共 '+${pageInfo.pages}+' 页'">当前 0 页,总共 0 页</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<a th:class="${pageInfo.pageNum != 1} ? 'btn btn-default' : 'btn btn-default disabled'" th:onclick="'javascript:pageNext(1)'" >首页</a>
+					<a th:class="${pageInfo.pageNum == 1} ? 'btn btn-default disabled' : 'btn btn-default'" th:onclick="'javascript:pageNext('+${pageInfo.pageNum - 1}+')'" >上一页</a>
+					<a th:class="${pageInfo.pageNum == pageInfo.pages} ? 'btn btn-default disabled' : 'btn btn-default'" th:onclick="'javascript:pageNext('+${pageInfo.pageNum + 1}+')'" >下一页</a>
+					<a th:class="${pageInfo.pageNum == pageInfo.pages} ? 'btn btn-default disabled' : 'btn btn-default'" th:onclick="'javascript:pageNext('+ ${pageInfo.pages} +')'" >尾页</a>
+					<input id="pageNub" style="width:5%" type="text" th:onkeyup="'javascript:returnNub(this)'" th:onblur="'javascript:returnNub(this)'"  />
+					<a th:onclick="'javascript:pageJump()'" class="btn btn-default">跳转</a>
+				</div>
+			</div>
+			<div class="row">
+				<!-- 模态框（Modal） -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				    <div class="modal-dialog">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				                    &times;
+				                </button>
+				                <h4 class="modal-title" id="myModalLabel">
+				                    	标题
+				                </h4>
+				            </div>
+				            <div class="modal-body">
+							    <!--用来存放文件信息-->
+							    <div id="thelist" class="uploader-list"></div>
+							    <div class="btns">
+							        <div id="picker">选择文件</div>
+							        <button id="ctlBtn" class="btn btn-default">开始上传</button>
+							    </div>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				                <button type="button" class="btn btn-info">确认</button>
+				            </div>
+				        </div><!-- /.modal-content -->
+				    </div><!-- /.modal -->
+				</div>
 			</div>
 		</div>
 	</div>
 	<div th:fragment="script" th:remove="tag">
+		<script type="text/javascript" charset="utf-8"
+			th:src="@{/webuploader-0.1.5/webuploader.js}"></script>
 		<script th:inline="javascript">
 			function pageNext(pageNum){
 				window.location.href = "/pikapika/picCollection/"+pageNum;
-			}
+			};
+			function pageJump(){
+				var pageNub = $("#pageNub").val();
+				var pageNubMax = [[${pageInfo.pages}]] 
+				if(pageNub == null){
+					return;
+				}
+				if(!isNull(pageNub)){
+					if(pageNub > pageNubMax){
+						window.location.href = "/pikapika/picCollection/"+pageNubMax;
+					}else if(pageNub == 0 || pageNub == 1){
+						window.location.href = "/pikapika/picCollection";
+					}else{
+						window.location.href = "/pikapika/picCollection/"+pageNub;
+					}
+				}
+			};
+			function returnNub(obj){
+				obj.value=obj.value.replace(/[^0-9]+/,'');
+			};
+			function isNull(str){
+				if ( str == "" ) return true;
+				var regu = "^[ ]+$";
+				var re = new RegExp(regu);
+				return re.test(str);
+			};
+			function imgClick(imgId){
+				if($("#"+imgId).is(':checked')){
+					$("#"+imgId).attr('checked', false);
+				}else{
+					$("#"+imgId).attr('checked', true);
+				}
+			};
+			function imgAllCheck(){
+				$("input[name='imgList']").each(function(){
+					$(this).attr('checked', true);
+				});
+			};
+			function imgAllUncheck(){
+				$("input[name='imgList']").each(function(){
+					$(this).attr('checked', false);
+				});
+			};
+			
+			var uploader;
+			//在点击弹出模态框的时候再初始化WebUploader，解决点击上传无反应问题
+			$("#myModal").on("shown.bs.modal",function(){
+			    uploader = WebUploader.create({
+			        swf : '/webuploader-0.1.5/Uploader.swf',
+			        server : 'http://webuploader.duapp.com/server/fileupload.php', // 后台路径
+			        pick : '#picker', // 选择文件的按钮。可选。内部根据当前运行是创建，可能是input元素，也可能是flash.
+			        resize : false,// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+			        chunked : true, // 是否分片
+			        duplicate:true,//去重， 根据文件名字、文件大小和最后修改时间来生成hash Key.
+			        chunkSize : 52428 * 100, // 分片大小， 5M
+			        /*    fileSingleSizeLimit:100*1024,//文件大小限制*/
+			        auto : true,
+			        // 只允许选择图片文件。
+			        accept: {
+			            title: 'Images',
+			            extensions: 'gif,jpg,jpeg,bmp,png',
+			            mimeTypes: 'image/jpg,image/jpeg,image/png'
+			        }
+			    });
+			    
+			    
+				 // 当有文件添加进来的时候
+			    uploader.on( 'fileQueued', function( file ) {
+			    	var $list = $("#thelist");
+			        var $li = $(
+			                '<div id="' + file.id + '" class="file-item">' +
+			                    '<img />' +
+			                    '<div class="info">' + file.name + '</div>' +
+			                '</div>'
+			                ),
+			            $img = $li.find('img');
+
+
+			        // $list为容器jQuery实例
+			        $list.append( $li );
+
+			        // 创建缩略图
+			        // 如果为非图片文件，可以不用调用此方法。
+			        // thumbnailWidth x thumbnailHeight 为 100 x 100
+			        uploader.makeThumb( file, function( error, src ) {
+			            if ( error ) {
+			                $img.replaceWith('<span>不能预览</span>');
+			                return;
+			            }
+
+			            $img.attr( 'src', src );
+			        }, 100, 100 );
+			    });
+			    
+				// 文件上传过程中创建进度条实时显示。
+			    uploader.on( 'uploadProgress', function( file, percentage ) {
+			        var $li = $( '#'+file.id ),
+			            $percent = $li.find('.progress span');
+
+			        // 避免重复创建
+			        if ( !$percent.length ) {
+			            $percent = $('<p class="progress"><span></span></p>')
+			                    .appendTo( $li )
+			                    .find('span');
+			        }
+
+			        $percent.css( 'width', percentage * 100 + '%' );
+			    });
+
+			    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+			    uploader.on( 'uploadSuccess', function( file ) {
+			        $( '#'+file.id ).addClass('upload-state-done');
+			    });
+
+			    // 文件上传失败，显示上传出错。
+			    uploader.on( 'uploadError', function( file ) {
+			        var $li = $( '#'+file.id ),
+			            $error = $li.find('div.error');
+
+			        // 避免重复创建
+			        if ( !$error.length ) {
+			            $error = $('<div class="error"></div>').appendTo( $li );
+			        }
+
+			        $error.text('上传失败');
+			    });
+
+			    // 完成上传完了，成功或者失败，先删除进度条。
+			    uploader.on( 'uploadComplete', function( file ) {
+			        $( '#'+file.id ).find('.progress').remove();
+			    });
+			});
+			
+			//关闭模态框销毁WebUploader，解决再次打开模态框时按钮越变越大问题
+			$('#myModal').on('hide.bs.modal', function () {
+			    $("#responeseText").text("");
+			    uploader.destroy();
+			});
 		</script>
     </div>
 </body>

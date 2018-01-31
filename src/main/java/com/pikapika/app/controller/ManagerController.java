@@ -145,7 +145,7 @@ public class ManagerController {
 	@RequestMapping(value="picCollection", method = RequestMethod.GET)
 	public ModelAndView picCollection() throws Exception{
 		ModelAndView view = new ModelAndView("picCollection/pictoManage");
-		PageHelper.startPage(PikapikaConstants.INT_NUB_0, PikapikaConstants.INT_NUB_8);
+		PageHelper.startPage(PikapikaConstants.INT_NUB_1, PikapikaConstants.INT_NUB_8);
 		List<FileEntity> picCollection = fileService.searchPicCollection("zxj123");
 		PageInfo<FileEntity> pageInfo = new PageInfo<>(picCollection);
 		view.addObject("picCollection", picCollection);
@@ -161,16 +161,19 @@ public class ManagerController {
 	@RequestMapping(value="picCollection/{pageNub}", method = RequestMethod.GET)
 	public ModelAndView pageNext(@PathVariable String pageNub) throws Exception{
 		ModelAndView view = new ModelAndView("picCollection/pictoManage");
-		if(pageNub!=null){
-			if(CodeUtil.isNub(pageNub)){
+		if(pageNub!=null && CodeUtil.isNub(pageNub)){
+			if(pageNub.length() > PikapikaConstants.INT_NUB_2){
+				PageHelper.startPage((PikapikaConstants.INT_NUB_2 * PikapikaConstants.INT_NUB_10) 
+						, PikapikaConstants.INT_NUB_8);
+			}else{
 				PageHelper.startPage(Integer.valueOf(pageNub), PikapikaConstants.INT_NUB_8);
-				List<FileEntity> picCollection = fileService.searchPicCollection("zxj123");
-				PageInfo<FileEntity> pageInfo = new PageInfo<>(picCollection);
-				view.addObject("picCollection", picCollection);
-				view.addObject("pageInfo", pageInfo);
-				return view;
 			}
+			List<FileEntity> picCollection = fileService.searchPicCollection("zxj123");
+			PageInfo<FileEntity> pageInfo = new PageInfo<>(picCollection);
+			view.addObject("picCollection", picCollection);
+			view.addObject("pageInfo", pageInfo);
+			return view;
 		}
-		return null;
+		return new ModelAndView("redirect:/pikapika/picCollection");
 	}
 }
