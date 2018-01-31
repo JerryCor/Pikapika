@@ -4,114 +4,76 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="common/pikapika_index_template">
 <head>
 <link th:href="@{/css/no-main.css}" rel="stylesheet" />
-<style>
-	/* 图片管理样式 */
-#online {
-    width: 100%;
-    height: 336px;
-    padding: 10px 0 0 0;
-}
-#online #imageList{
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: relative;
-}
-#online ul {
-    display: block;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-#online li {
-    float: left;
-    display: block;
-    list-style: none;
-    padding: 0;
-    width: 113px;
-    height: 113px;
-    margin: 0 0 9px 9px;
-    *margin: 0 0 6px 6px;
-    background-color: #eee;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-}
-#online li.clearFloat {
-    float: none;
-    clear: both;
-    display: block;
-    width:0;
-    height:0;
-    margin: 0;
-    padding: 0;
-}
-#online li img {
-    cursor: pointer;
-}
-#online li .icon {
-    cursor: pointer;
-    width: 113px;
-    height: 113px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    border: 0;
-    background-repeat: no-repeat;
-}
-#online li .icon:hover {
-    width: 107px;
-    height: 107px;
-    border: 3px solid #1094fa;
-}
-#online li.selected .icon {
-    background-image: url(images/success.png);
-    background-image: url(images/success.gif)\9;
-    background-position: 75px 75px;
-}
-#online li.selected .icon:hover {
-    width: 107px;
-    height: 107px;
-    border: 3px solid #1094fa;
-    background-position: 72px 72px;
-}
-</style>
 </head>
 <body>
 	<div th:fragment="content" th:remove="tag">
 		<div class="container">
-		<div class="row">
-			<div class="col-sm-9">
-				<div th:each="pic,picStat : ${picCollection}"  class="col-sm-3 checkPic selected">
-					<div style="background:#d9edf7;height:20px;width:80%;position:absolute;"></div>
-				    <a href="#" class="thumbnail">
-				      <img src="/ueditor/upload/bbs/image/b271a1bccc384715b6c8917f406a129e.png" style="width:100%;height:100%" alt="..." />
-				    </a>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="col-md-3" th:each="pic,picStat : ${picCollection}">
+						<div class="thumbnail">
+								<img style="width:100%;height:100%;" th:src="${pic.filePath + pic.fileName}" />
+							<div class="caption">
+								<h4>Thumbnail label</h4>
+								<p>
+									<input type="checkbox" th:value="${pic.fileId}" />
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div  class="col-sm-3 checkPic selected">
-				    <a href="#" class="thumbnail" style="width:100%;height:100%">
-				      <img src="/ueditor/upload/bbs/image/icon-phone.png" style="width:100%;height:100%" alt="..." />
-				    </a>
+				<div class="col-md-3">
+					<ul class="list-group">
+					  <li class="list-group-item">
+						<a href="#">添加图片</a>
+					  </li>
+					  <li class="list-group-item">
+						<a href="#">删除图片</a>
+					  </li>
+					  <li class="list-group-item">
+					  	<a href="#">全选当前页</a>
+					  </li>
+					</ul>
 				</div>
 			</div>
-			<div class="col-sm-3">
-				<div class="list-group">
-				  <a href="#" class="list-group-item active">添加图片</a>
-				  <a href="#" class="list-group-item">删除图片</a>
-				</div>
+			<div class="row">
+				<nav style="text-align: center" aria-label="Page navigation">
+				  <ul class="pagination pagination-lg">
+				    <li th:class="${pageInfo.pageNum == 1} ? 'disabled' : ''" >
+				      <a href="#" aria-label="firstPage">
+				        <span>首页</span>
+				      </a>
+				    </li>
+				    <li th:class="${pageInfo.pageNum == 1} ? 'disabled' : ''" >
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li th:each="i : ${#numbers.sequence(pageInfo.pageNum, pageInfo.pages)}" >
+				      <a href="#" aria-label="Previous">
+				        <span th:text="${i}"></span>
+				      </a>
+				    </li>
+				    <li>
+				      <a th:onclick="'javascript:pageNext('+${pageInfo.pageNum + 1}+')'"  aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				    <li>
+				      <a href="#" aria-label="LastPage">
+				        <span>尾页</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
 			</div>
-		</div>
 		</div>
 	</div>
 	<div th:fragment="script" th:remove="tag">
 		<script th:inline="javascript">
-			$(function(){
-				$(".thumbnail").click(function(){
-					console.log("aaa");
-				});
-			})
+			function pageNext(pageNum){
+				window.location.href = "/pikapika/picCollection/"+pageNum;
+			}
 		</script>
     </div>
 </body>

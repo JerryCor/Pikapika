@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.pikapika.app.entity.CharactorEntity;
 import com.pikapika.app.entity.FileEntity;
 import com.pikapika.app.service.CharactorService;
 import com.pikapika.app.service.FileService;
+import com.pikapika.app.util.CodeUtil;
+import com.pikapika.app.util.PikapikaConstants;
 
 @Controller
 @RequestMapping("/pikapika")
@@ -141,8 +145,32 @@ public class ManagerController {
 	@RequestMapping(value="picCollection", method = RequestMethod.GET)
 	public ModelAndView picCollection() throws Exception{
 		ModelAndView view = new ModelAndView("picCollection/pictoManage");
+		PageHelper.startPage(PikapikaConstants.INT_NUB_0, PikapikaConstants.INT_NUB_8);
 		List<FileEntity> picCollection = fileService.searchPicCollection("zxj123");
+		PageInfo<FileEntity> pageInfo = new PageInfo<>(picCollection);
 		view.addObject("picCollection", picCollection);
+		view.addObject("pageInfo", pageInfo);
 		return view;
+	}
+	
+	/**
+	 * 请求图片收藏页面(下一页)
+	 * @return 图片收藏页面
+	 * @throws Exception
+	 */
+	@RequestMapping(value="picCollection/{pageNub}", method = RequestMethod.GET)
+	public ModelAndView pageNext(@PathVariable String pageNub) throws Exception{
+		ModelAndView view = new ModelAndView("picCollection/pictoManage");
+		if(pageNub!=null){
+			if(CodeUtil.isNub(pageNub)){
+				PageHelper.startPage(Integer.valueOf(pageNub), PikapikaConstants.INT_NUB_8);
+				List<FileEntity> picCollection = fileService.searchPicCollection("zxj123");
+				PageInfo<FileEntity> pageInfo = new PageInfo<>(picCollection);
+				view.addObject("picCollection", picCollection);
+				view.addObject("pageInfo", pageInfo);
+				return view;
+			}
+		}
+		return null;
 	}
 }
