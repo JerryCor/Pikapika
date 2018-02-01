@@ -65,4 +65,12 @@ public interface FileService {
 	 * @throws Exception
 	 */
 	void deleteFile(String fileName ,String uaccountId) throws Exception;
+	
+	/**
+	 * 删除收藏图片
+	 * @param ids 图片Id
+	 * @param uaccountId 用户Id
+	 * @throws Exception
+	 */
+	void deleteFile(String[] ids ,String uaccountId) throws Exception;
 }

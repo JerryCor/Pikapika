@@ -39,7 +39,7 @@ public interface FileMapper {
 	 * @param uaccountId 用户Id
 	 * @return 图片列表
 	 */
-	List<FileEntity> getPicCollection(@Param("uaccountId") String uaccountId);
+	List<FileEntity> getPicCollection(@Param("fileType") String fileType, @Param("uaccountId") String uaccountId);
 	
 	/**
 	 * 添加文件
@@ -57,4 +57,11 @@ public interface FileMapper {
 	 * @param uaccountId 用户Id
 	 */
 	void deleteFile(@Param("fileName") String fileName, @Param("uaccountId") String uaccountId);
+	
+	/**
+	 * 删除文件通过文件名和用户Id
+	 * @param fileId 文件Id
+	 * @param uaccountId 用户Id
+	 */
+	void deleteFileById(@Param("fileId") String fileId, @Param("uaccountId") String uaccountId);
 }

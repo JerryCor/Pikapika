@@ -5,6 +5,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <head>
 <link th:href="@{/css/no-main.css}" rel="stylesheet" />
 <link th:href="@{/webuploader-0.1.5/webuploader.css}" rel="stylesheet" />
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
 <style>
 .thumbnail-no-img {
  display: block;
@@ -44,6 +45,11 @@ a.thumbnail-no-img.active {
     display: block;
 }
 
+#imgCollection .btns {
+    text-align: right;
+}
+
+
 
 #imgCollection .thumbnail {
     width: 110px;
@@ -64,15 +70,29 @@ a.thumbnail-no-img.active {
 }
 #imgCollection .file-item .error {
     position: absolute;
-    top: 4px;
+    top: 50%;
     left: 4px;
     right: 4px;
-    background: red;
+    background: #bba1a1;
     color: white;
     text-align: center;
     height: 20px;
     font-size: 14px;
     line-height: 23px;
+}
+#imgCollection .file-item .close:after {
+   content:"\f2d3";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+    color:white;
+    position: absolute;
+    right: 4px;
+    z-index: 99;
 }
 #imgCollection .file-item .info {
     position: absolute;
@@ -124,7 +144,7 @@ a.thumbnail-no-img.active {
     overflow: hidden;
     width: 0;
     height: 100%;
-    background: #d14 url(../images/progress.png) repeat-x;
+    background: #8eb9f5 url(/webuploader-0.1.5/images/progress.png) repeat-x;
     -webit-transition: width 200ms linear;
     -moz-transition: width 200ms linear;
     -o-transition: width 200ms linear;
@@ -136,6 +156,15 @@ a.thumbnail-no-img.active {
     -ms-animation: progressmove 2s linear infinite;
     animation: progressmove 2s linear infinite;
     -webkit-transform: translateZ(0);
+}
+
+.list-group-item a {
+	text-decoration: none;
+}
+
+.list-group-item span {
+	text-align:center;
+	display: block;
 }
 @-webkit-keyframes progressmove {
     0% {
@@ -200,17 +229,17 @@ a.travis {
 				<div class="col-md-3">
 					<ul class="list-group">
 					  <li class="list-group-item">
-						<a data-toggle="modal" data-target="#myModal">添加图片</a>
+						<a href="#"><span class="fa fa-plus-circle"  data-toggle="modal" data-target="#myModal"> 添加图片</span></a>
 					  </li>
 					  <li class="list-group-item">
-						<a href="#">删除图片</a>
+						<a href="#"><span class="fa fa-minus-circle" id="imgDelete"> 删除图片</span></a>
 					  </li>
 					  <li class="list-group-item">
-					  	<a th:onclick="'javascript:imgAllCheck()'" >全选当前页</a>
+					  	<a href="#"><span class="fa fa-check-circle-o" id="imgCheck">点击全选</span></a>
 					  </li>
-					  <li class="list-group-item">
-					  	<a th:onclick="'javascript:imgAllUncheck()'" >取消全选当前页</a>
-					  </li>
+					  <!-- <li class="list-group-item">
+					  	<a href="#" th:onclick="'javascript:imgAllUncheck()'" >取消全选当前页</a>
+					  </li> -->
 					</ul>
 				</div>
 			</div>
@@ -239,7 +268,7 @@ a.travis {
 				                    &times;
 				                </button>
 				                <h4 class="modal-title" id="myModalLabel">
-				                    	标题
+				                    	图片上传
 				                </h4>
 				            </div>
 				            <div class="modal-body">
@@ -252,10 +281,10 @@ a.travis {
 								    </div>
 				            	</div>
 				            </div>
-				            <div class="modal-footer">
+				            <!-- <div class="modal-footer">
 				                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				                <button type="button" class="btn btn-info">确认</button>
-				            </div>
+				            </div> -->
 				        </div><!-- /.modal-content -->
 				    </div><!-- /.modal -->
 				</div>
@@ -266,6 +295,7 @@ a.travis {
 		<script type="text/javascript" charset="utf-8"
 			th:src="@{/webuploader-0.1.5/webuploader.js}"></script>
 		<script th:inline="javascript">
+			var imgFalg =true;
 			function pageNext(pageNum){
 				window.location.href = "/pikapika/picCollection/"+pageNum;
 			};
@@ -296,19 +326,19 @@ a.travis {
 			};
 			function imgClick(imgId){
 				if($("#"+imgId).is(':checked')){
-					$("#"+imgId).attr('checked', false);
+					$("#"+imgId).prop('checked', false);
 				}else{
-					$("#"+imgId).attr('checked', true);
+					$("#"+imgId).prop('checked', true);
 				}
 			};
 			function imgAllCheck(){
 				$("input[name='imgList']").each(function(){
-					$(this).attr('checked', true);
+					$(this).prop('checked', true);
 				});
 			};
 			function imgAllUncheck(){
 				$("input[name='imgList']").each(function(){
-					$(this).attr('checked', false);
+					$(this).prop('checked', false);
 				});
 			};
 			
@@ -317,14 +347,14 @@ a.travis {
 			$("#myModal").on("shown.bs.modal",function(){
 			    uploader = WebUploader.create({
 			        swf : '/webuploader-0.1.5/Uploader.swf',
-			        server : 'http://webuploader.duapp.com/server/fileupload.php', // 后台路径
+			        server : '/pikapika/picCollection/uploadimage', // 后台路径
 			        pick : '#picker', // 选择文件的按钮。可选。内部根据当前运行是创建，可能是input元素，也可能是flash.
 			        resize : false,// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
 			        chunked : true, // 是否分片
-			        duplicate:true,//去重， 根据文件名字、文件大小和最后修改时间来生成hash Key.
+			        duplicate:false,//去重， 根据文件名字、文件大小和最后修改时间来生成hash Key.
 			        chunkSize : 52428 * 100, // 分片大小， 5M
 			        /*    fileSingleSizeLimit:100*1024,//文件大小限制*/
-			        auto : true,
+			        auto : false, //是否自动上传
 			        // 只允许选择图片文件。
 			        accept: {
 			            title: 'Images',
@@ -335,10 +365,11 @@ a.travis {
 			    
 			    
 				 // 当有文件添加进来的时候
+		    	var $list = $("#thelist");
 			    uploader.on( 'fileQueued', function( file ) {
-			    	var $list = $("#thelist");
 			        var $li = $(
 			                '<div id="' + file.id + '" class="file-item">' +
+			              		'<div class="close"></div>' +
 			                    '<img />' +
 			                    '<div class="info">' + file.name + '</div>' +
 			                '</div>'
@@ -378,8 +409,20 @@ a.travis {
 			    });
 
 			    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-			    uploader.on( 'uploadSuccess', function( file ) {
-			        $( '#'+file.id ).addClass('upload-state-done');
+			    uploader.on( 'uploadSuccess', function( file, response ) {
+			    	console.log(response);
+			    	if(response.flag){
+				        $( '#'+file.id ).addClass('upload-state-done');
+			    	}else{
+			    		var $li = $( '#'+file.id ),
+			            $error = $li.find('div.error');
+
+				        // 避免重复创建
+				        if ( !$error.length ) {
+				            $error = $('<div class="error"></div>').appendTo( $li );
+				        }
+				        $error.text('上传失败');
+			    	}
 			    });
 
 			    // 文件上传失败，显示上传出错。
@@ -399,12 +442,63 @@ a.travis {
 			    uploader.on( 'uploadComplete', function( file ) {
 			        $( '#'+file.id ).find('.progress').remove();
 			    });
+			    
+			    var $btn =$("#ctlBtn");   //开始上传  
+			    
+			    $btn.on( 'click', function() {  
+			        console.log("上传...");  
+			        var dd = uploader.getFiles();
+			        uploader.upload();  
+			        console.log("上传成功");  
+			      });
+			    $list.on("click", ".close", function () {
+			        var fileItem = $(this).parent();
+			        var id = $(fileItem).attr("id");
+			        uploader.removeFile(id, true);
+			        $(fileItem).fadeOut(function () {
+			            $(fileItem).remove();
+			        });
+			    });
 			});
 			
 			//关闭模态框销毁WebUploader，解决再次打开模态框时按钮越变越大问题
 			$('#myModal').on('hide.bs.modal', function () {
 			    $("#responeseText").text("");
+			    var dd =  uploader.getFiles();
 			    uploader.destroy();
+			    $("#thelist").empty();
+			});
+			
+			$("#imgCheck").on("click", function(){
+				if(imgFalg){
+					imgAllCheck();
+					$("#imgCheck").text("取消全选");
+					$("#imgCheck").removeClass("fa-check-circle-o");
+					$("#imgCheck").addClass("fa-circle-o");
+					imgFalg = false;
+				}else{
+					imgAllUncheck();
+					$("#imgCheck").text("点击全选");
+					$("#imgCheck").removeClass("fa-circle-o");
+					$("#imgCheck").addClass("fa-check-circle-o");
+					imgFalg =true;
+				}
+			});
+			$("#imgDelete").on("click", function(){
+				var imgList = [];
+				$("input[name='imgList']").each(function(){
+					if($(this).is(":checked")){
+						imgList.push($(this).val());
+					}
+				});
+				debugger;
+				console.log(imgList.length);
+				if(imgList.length > 0){
+					console.log(imgList);
+					window.location.href = "/pikapika/picCollection/delFactory/"+imgList;
+				}else{
+					alert("请选择图片");
+				}
 			});
 		</script>
     </div>

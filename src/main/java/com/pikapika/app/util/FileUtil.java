@@ -146,6 +146,30 @@ public class FileUtil {
 		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_FILE);
 		return fileDto;
 	}
+	
+	/**
+	 * 上传收藏图片
+	 * 
+	 * @param fileDto
+	 *            图片信息
+	 * @return 上传成功的图片对象
+	 * @throws IOException
+	 */
+	public static FileDto uploadColImg(FileDto fileDto) throws IOException {
+		// 获得图片后缀名称
+		String imageType = fileDto.getContentType().substring(fileDto.getContentType().indexOf("/") + 1);
+		String imageName = UUID.randomUUID().toString().replaceAll("-", "") + "." + imageType;
+		String imgpath = fileDto.getResourcePath() + PikapikaConstants.PIKAPIKA_UPLOAD_COLIMG;
+		File file = new File(imgpath);
+		if (!file.exists() && !file.isDirectory()) {
+			file.mkdirs();
+		}
+		String path = imgpath + "/" + imageName;
+		fileDto.getFile().transferTo(new File(path));
+		fileDto.setFileName(imageName);
+		fileDto.setFilePath(PikapikaConstants.PIKAPIKA_UPLOAD_COLIMG);
+		return fileDto;
+	}
 
 	/**
 	 * 生成FileDto

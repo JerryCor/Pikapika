@@ -7,6 +7,11 @@ package com.pikapika.app.util;
  */
 public class PikapikaConstants {
 	
+	/** true */
+	public static final boolean BOOLEAN_TRUE = true;
+	/** false */
+	public static final boolean BOOLEAN_FALSE = false;
+	
 	/** 页数 */
 	public static final String PAGE_NUB = "1";
 	/** 每页条数 */
@@ -37,6 +42,8 @@ public class PikapikaConstants {
 	public static final String PIKAPIKA_IMG_PNG = "png";
 	/** 上传类型（scrawl） */
 	public static final String PIKAPIKA_IMG_SCRAWL = "scrawl";
+	/** 上传类型（收藏） */
+	public static final String PIKAPIKA_IMG_COLLECTION = "collection";
 	/** 上传图片路径 */
 	public static final String PIKAPIKA_UPLOAD_IMG = "/ueditor/upload/bbs/image/";
 	/** 上传涂鸦路径 */
@@ -45,6 +52,8 @@ public class PikapikaConstants {
 	public static final String PIKAPIKA_UPLOAD_VIDEO = "/ueditor/upload/bbs/video/";
 	/** 上传附件路径 */
 	public static final String PIKAPIKA_UPLOAD_FILE = "/ueditor/upload/bbs/word/";
+	/** 上传收藏图片路径 */
+	public static final String PIKAPIKA_UPLOAD_COLIMG = "/ueditor/upload/collection/image/";
 	/**
 	 * 数字常量(string)
 	 */

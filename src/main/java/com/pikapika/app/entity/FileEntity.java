@@ -11,7 +11,6 @@ public class FileEntity implements Serializable {
 	private String originalName;
 	private String filePath;
 	private String fileType;
-	private Integer isCollection = Integer.valueOf(0);
 	private String uaccountId;
 	private String createTime;
 	public Integer getFileId() {
@@ -43,12 +42,6 @@ public class FileEntity implements Serializable {
 	}
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
-	}
-	public Integer getIsCollection() {
-		return isCollection;
-	}
-	public void setIsCollection(Integer isCollection) {
-		this.isCollection = isCollection;
 	}
 	public String getUaccountId() {
 		return uaccountId;

@@ -76,7 +76,7 @@ public class UeditorController {
 	}
 
 	/**
-	 * 获取最近上传图片
+	 * 获取我的收藏图片
 	 * 
 	 * @param request
 	 *            请求对象
@@ -90,7 +90,7 @@ public class UeditorController {
 	@ResponseBody
 	public String listimage(HttpServletRequest request, @RequestParam("start") String start,
 			@RequestParam("size") String size) {
-		logger.info("开始获取用户图片列表......");
+		logger.info("开始获取用户收藏图片列表......");
 		String jsonResult = "";
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> result = new ConcurrentHashMap<>();
@@ -98,17 +98,17 @@ public class UeditorController {
 		if (CodeUtil.isNub(start) && CodeUtil.isNub(size)) {
 			try {
 				PageHelper.startPage(Integer.valueOf(start), Integer.valueOf(size));
-				urlsList = fileService.searchFileUrls(PikapikaConstants.PIKAPIKA_IMG, "zxj123");
+				urlsList = fileService.searchFileUrls(PikapikaConstants.PIKAPIKA_IMG_COLLECTION, "zxj123");
 				PageInfo<ListImageDto> dtos = new PageInfo<>(urlsList);
 				result.put("state", PikapikaConstants.PIKAPIKA_SUCCESS_UPPER);
 				result.put("list", dtos.getList());
 				result.put("start", Integer.valueOf(size));
 				result.put("total", dtos.getTotal());
 				jsonResult = mapper.writeValueAsString(result);
-				logger.info("获取用户图片列表成功......");
+				logger.info("获取用户收藏图片列表成功......");
 				return jsonResult;
 			} catch (Exception e) {
-				logger.info("获取用户图片列表失败......");
+				logger.info("获取用户收藏图片列表失败......");
 				logger.info(e.getMessage());
 			}
 		}

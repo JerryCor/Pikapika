@@ -70,6 +70,11 @@ public class FileServiceImpl implements FileService {
 			BeanUtils.copyProperties(file, entity);
 			fileMapper.insertFile(entity);
 			return file;
+		} else if(PikapikaConstants.PIKAPIKA_IMG_COLLECTION.equals(file.getFileType())){
+			file = FileUtil.uploadColImg(file);
+			BeanUtils.copyProperties(file, entity);
+			fileMapper.insertFile(entity);
+			return file;
 		} else {
 			return null;
 		}
@@ -93,11 +98,19 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public List<FileEntity> searchPicCollection(String uaccountId) throws Exception {
-		List<FileEntity> picCollection = fileMapper.getPicCollection(uaccountId);
+		List<FileEntity> picCollection = fileMapper.getPicCollection(PikapikaConstants.PIKAPIKA_IMG_COLLECTION, uaccountId);
 		if(picCollection != null && !picCollection.isEmpty()){
 			return picCollection;
 		}
 		return null;
+	}
+
+	@Override
+	public void deleteFile(String[] ids, String uaccountId) throws Exception {
+		for(String fileId : ids){
+			System.out.println(fileId);
+			//fileMapper.deleteFileById(fileId, uaccountId);
+		}
 	}
 
 }
